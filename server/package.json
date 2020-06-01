@@ -1,0 +1,19 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "syl",
+  "scripts": {
+    "serve": "nodemon node app.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^8.0.8",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.3",
+    "sequelize": "^5.21.8"
+  }
+}

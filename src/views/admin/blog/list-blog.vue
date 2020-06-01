@@ -1,0 +1,202 @@
+<!--  -->
+<template>
+  <div>
+    <div>
+      <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+        <el-form-item label="文章名" prop="name">
+          <el-input
+            placeholder="请输入文章名"
+            v-model="queryParams.name"
+            clearable
+            size="small"
+            @keyup.enter.native="handleQuery"
+          />
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery('queryForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+
+      <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
+          <el-button type="primary" icon="el-icon-plus" size="mini">
+            <router-link to="/admin/blog/add-blog">开始创作</router-link>
+          </el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="success"
+            icon="el-icon-edit"
+            size="mini"
+            :disabled="single"
+            @click="handleUpdate"
+          >修改</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            :disabled="multiple"
+            @click="handleDelete"
+          >删除</el-button>
+        </el-col>
+        <!-- <el-col :span="1.5">
+          <el-button
+            type="warning"
+            icon="el-icon-download"
+            size="mini"
+            @click="handleExport"
+            v-hasPermi="['biz:server:export']"
+          >导出</el-button>
+        </el-col>-->
+      </el-row>
+    </div>
+    <el-table
+      ref="multipleTable"
+      v-loading="loading"
+      :data="tableData"
+      tooltip-effect="dark"
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column prop="title" label="标题" width="200" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="description" label="分类" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="" label="标签" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="created_time" label="日期" show-overflow-tooltip></el-table-column>
+      <!-- <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="url" label="地址" show-overflow-tooltip></el-table-column>-->
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <!-- <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['biz:server:edit']"
+          >修改</el-button>-->
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleDetail(scope.row)">详细</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+          >删除</el-button>
+          <!-- <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-document"
+            @click="handleService(scope.row)"
+          >服务一览</el-button>-->
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- <div style="margin-top: 20px">
+      <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
+      <el-button @click="toggleSelection()">取消选择</el-button>
+    </div>-->
+    <div class="block">
+      <el-pagination
+        :total="total"
+        :page.sync="queryParams.pageNum"
+        :limit.sync="queryParams.pageSize"
+        :page-sizes="[100, 200, 300, 400]"
+        :current-page.sync="pageConf.pageCode"
+        @current-change="handleCurrentChange"
+      ></el-pagination>
+    </div>
+  </div>
+</template>
+<script>
+import { listBlog } from "@/api/blog/blog";
+export default {
+  name: "admin-blog",
+  data() {
+    return {
+      tableData: [],
+      multipleSelection: [],
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10
+        // serverUrl: undefined,
+        // serverEnvironment: undefined,
+        // id: ""
+      },
+      total: 100,
+      // 选中的数组
+      ids: [],
+      single: true,
+      multiple: true,
+      loading: false,
+      pageConf: {
+        //设置一些初始值(会被覆盖)
+        pageCode: 1, //当前页
+        pageSize: 10, //每页显示的记录数
+        totalPage: 12, //总记录数
+        pageOption: [10, 20] //分页选项
+      }
+    };
+  },
+  created() {
+    // this.loading = true;
+    // this.axios.get("/listProject").then(response => {
+    //   this.tableData = response.data.result;
+    //   console.log(response.data);
+    // });
+    console.log("文章管理");
+    listBlog(this.queryParams).then(response => {
+      // console.log(response);
+      this.tableData = response.data;
+      // console.log(response.result[0].id);
+      // this.loading = false;
+    });
+  },
+  methods: {
+    //pageSize改变时触发的函数
+    handleSizeChange(val) {},
+    //当前页改变时触发的函数
+    handleCurrentChange: function() {
+      console.log("页码改变了" + this.pageConf.pageCode);
+    },
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
+    },
+    handleSelectionChange(val) {
+      // 这个函数是用来获取当前选中的数据
+      this.multipleSelection = val;
+      this.ids = this.multipleSelection.map(item => item.id);
+      console.log("ids", this.ids);
+      this.multiple = !this.multipleSelection.length;
+      this.single = this.multipleSelection.length != 1;
+    },
+    handleUpdate(rows) {
+      this.$router.push({
+        path: "add-blog/" + this.multipleSelection[0].id
+      });
+    },
+    handleDelete() {},
+    handleQuery() {},
+    handleAdd() {},
+    resetQuery(formName) {
+      this.$refs[formName].resetFields();
+    }
+  }
+};
+</script>
+<style  scoped>
+.el-pagination {
+  right: 0;
+  position: absolute;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+</style>
