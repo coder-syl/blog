@@ -1,12 +1,12 @@
 const db = require('../config/db') // 引入数据库配置
 const Sequelize = db.sequelize; // 使用sequelize
-const Articles = Sequelize.import('../model/articles')
-Articles.sync({ force: false })
+const Blogs = Sequelize.import('../model/blogs')
+Blogs.sync({ force: false })
 
-class articleService {
+class blogsService {
     /** 获取所有文章 */
     static async  getAllBlog(query) {
-        return await Articles.findAll({
+        return await Blogs.findAll({
             where: {
                 ...query
             },
@@ -17,7 +17,7 @@ class articleService {
 
     }
     static async getBlogById(id) {
-        return await Articles.findOne({
+        return await Blogs.findOne({
             where: {
                 id: id
             }
@@ -25,13 +25,22 @@ class articleService {
     }
     static async addBlog(data) {
         console.log("tianjia shuju ")
-        return await Articles.create({
+        return await Blogs.create({
            ...data,
            
         })
     }
-
+    static async updateBlogById(data, id) {
+        console.log(data, id)
+        return await Blogs.update({
+            ...data
+        }, {
+            where: {
+                id: id
+            }
+        })
+    }
 }
 
 
-module.exports = articleService;
+module.exports = blogsService;

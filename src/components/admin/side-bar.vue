@@ -33,10 +33,10 @@ vue
             文章
           </el-menu-item>
         </router-link>
-        <router-link to="/admin/index">
+        <router-link to="/admin/classification">
           <el-menu-item index="4">
             <i class="el-icon-setting"></i>
-            首页
+            分类
           </el-menu-item>
         </router-link>
       </el-menu>

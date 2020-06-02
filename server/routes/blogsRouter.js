@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const articleController = require('../controllers/articlesController')
+const blogsController = require('../controllers/blogsController')
 // const multer = require('koa-multer');
 
 router.prefix('/api/v1')
@@ -20,9 +20,11 @@ router.prefix('/api/v1')
 // //加载配置
 // var upload = multer({ storage: storage })
 
-router.get('/articles', articleController.getAllBlog)
-router.post('/addArticles', articleController.addBlog)
-router.get('/getArticlesById/:id',articleController.getBlogById)
+router.get('/allBlogs', blogsController.getAllBlog)
+router.post('/addBlog', blogsController.addBlog)
+router.get('/getBlogById/:id',blogsController.getBlogById)
+router.post('/updateBlogById/', blogsController.updateBlogById)
+
 // router.put('/blog', articleController.updateBlog)
 // router.post('/upload', upload.single('avatar'), async (ctx, next) => {
 //     console.log('123')

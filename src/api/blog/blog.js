@@ -2,7 +2,7 @@ import request from '@/utils/request'
 // 查询文章列表
 export function listBlog(query, hasLoading = false) {
     return request({
-        url: '/articles',
+        url: '/allBlogs',
         method: 'get',
         // params: query,
         hasLoading: hasLoading
@@ -12,7 +12,7 @@ export function listBlog(query, hasLoading = false) {
 // 根据id获取文章
 export function getBlogById(id, hasLoading = true) {
     return request({
-        url: '/getArticlesById/' + id,
+        url: '/getBlogById/' + id,
         method: 'get',
         // params:query,
         hasLoading: hasLoading
@@ -20,16 +20,16 @@ export function getBlogById(id, hasLoading = true) {
 }
 export function addBlog(article, hasLoading = false) {
     return request({
-        url: '/addArticles/',
+        url: '/addBlog/',
         method: 'post',
-        params: article,
+        data: article,
         hasLoading: hasLoading
     })
 
 }
 export function updateBlogById(article, hasLoading = false) {
     return request({
-        url: '/updateArticlesById/',
+        url: '/updateBlogById/',
         method: 'post',
         params: article,
         hasLoading: hasLoading

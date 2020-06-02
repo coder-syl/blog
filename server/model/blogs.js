@@ -1,5 +1,5 @@
-const articles = (sequelize, DataTypes) => {
-    return sequelize.define('article',{
+const blogs = (sequelize, DataTypes) => {
+    return sequelize.define('blogs',{
         id:{
             type:DataTypes.INTEGER,
             primaryKey:true,
@@ -20,6 +20,11 @@ const articles = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
             field: 'content'
+        },
+        htmlContent: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: 'htmlContent'
         },
         created_time:{
             type:DataTypes.DATE
@@ -48,4 +53,4 @@ const articles = (sequelize, DataTypes) => {
         freezeTableName: false
     })
 }
-module.exports=  articles
+module.exports=  blogs

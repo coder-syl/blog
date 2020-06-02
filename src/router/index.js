@@ -11,12 +11,12 @@ export default new Router({
             path: '/',
             name: 'home',
             component: require('@views/home/layout').default,
-            redirect:'index',
-            children:[
+            redirect: 'index',
+            children: [
                 {
-                    path:"/index",
-                    name:"index",
-                    component:require('@views/home/index').default,
+                    path: "/index",
+                    name: "index",
+                    component: require('@views/home/index').default,
                 },
                 {
                     path: '/aboutMe',
@@ -36,7 +36,7 @@ export default new Router({
             ]
 
         },
-        
+
         {
             path: '/test',
             name: 'test',
@@ -71,7 +71,7 @@ export default new Router({
                     path: 'blog',
                     name: "管理文章",
                     component: require('@admin/blog/index').default,
-                    redirect:"blog/list-blog",
+                    redirect: "blog/list-blog",
                     meta: { title: 'blog', icon: '' },
                     children: [
                         {
@@ -89,6 +89,28 @@ export default new Router({
                     ]
 
                 },
+                {
+                    path: 'classification',
+                    name: "分类管理",
+                    component: require("@admin/classification/index").default,
+                    meta: { title: "classification", icon: "" },
+                    redirect: "classification/list-classification",
+                    children: [
+                        {
+                            path: 'list-classification',
+                            name: "分类列表",
+                            component: require('@admin/classification/list-classification').default,
+                            // meta: { title: 's', icon: '' },
+                        },
+                        // {
+                        //     path: 'add-blog/:id?',
+                        //     name: "增加文章",
+                        //     component: require('@admin/blog/add-blog').default,
+                        //     // meta: { title: '增加文章', icon: '' }
+                        // },
+                    ]
+
+                }
             ]
         }
     ]

@@ -207,11 +207,11 @@ export default {
       updateBlogById(this.blog, true).then(response => {
         if (response.code === 200) {
           this.$message({
-            message: "新增成功",
+            message: "更新成功",
             type: "success"
           });
         } else {
-          this.$message.error("新增失败");
+          this.$message.error("更新失败");
         }
       });
     },
@@ -227,11 +227,11 @@ export default {
         // this.loading = false;
         if (response.code === 200) {
           this.$message({
-            message: "更新成功",
+            message: "添加成功",
             type: "success"
           });
         } else {
-          this.$message.error("更新失败");
+          this.$message.error("添加失败");
         }
       });
     },
@@ -249,13 +249,23 @@ export default {
   margin-right: 10px;
 }
 .blog-detail {
-  height: 550px;
+  height: 100%;
+  /* height: 600px; */
 }
-.v-note-wrapper {
-  height: 570px !important;
+@media screen and  (min-height : 800px) {
+  .v-note-wrapper {
+    height: 650px !important;
+    box-shadow: none !important;
+  }
+}
+@media screen and  (max-height : 800px) {
+  .v-note-wrapper {
+    height: 530px !important;
+    box-shadow: none !important;
+  }
+}
 
-  box-shadow: none !important;
-}
+
 .v-note-wrapper.shadow {
   border: 1px solid #dcdfe6 !important;
   border-radius: 1px;
