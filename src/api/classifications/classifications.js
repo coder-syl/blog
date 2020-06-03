@@ -37,10 +37,12 @@ export function updateClassificationById(article, hasLoading = false) {
 
 }
 // 删除项目信息
-export function delProject(id) {
+export function deleteClassificationsById(deletf,id,hasLoading = false) {
     return request({
-        url: "/delProject/" + id,
-        method: 'delete'
+        url: "/deleteClassificationsById/" + id,
+        method: 'post',
+        data:{deletf,id},
+        hasLoading: hasLoading
 
     })
 }

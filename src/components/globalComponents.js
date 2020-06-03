@@ -16,26 +16,26 @@ import camelCase from 'lodash/camelCase'
 // 第二个参数是将要注册的Vue组件。
 
 const requireComponents = require.context('@components', true, /\.vue/)
-// console.log(requireComponents)
-// 返回一个所有元素为字符串的数组，其元素来自于从给定的object上面可直接枚
+    // console.log(requireComponents)
+    // 返回一个所有元素为字符串的数组，其元素来自于从给定的object上面可直接枚
 export default {
-    install: function (_Vue) {
+    install: function(_Vue) {
         requireComponents.keys().forEach(fileName => {
-            console.log("fileNAme", fileName)
+            // console.log("fileNAme", fileName)
             // 组件实例
             const reqCom = requireComponents(fileName)
-            // 自定义组件名
-            // 这里使用
+                // 自定义组件名
+                // 这里使用
             const componentName = camelCase(fileName.replace(/\.\w+/, '').replace(/\.\//, '').replace(/\w+\//, ''))
-            console.log("componentName-1", componentName)
-            // console.log('componentName-2', reqCom.default.name)
-            // console.log("reqCom", reqCom.default)
-            // console.log("reqCom", reqCom)
-            // 如果这个组件选项是通过 `export default` 导出的，
-            // 那么就会优先使用 `.default`，
-            // 否则回退到使用模块的根。
+                // console.log("componentName-1", componentName)
+                // console.log('componentName-2', reqCom.default.name)
+                // console.log("reqCom", reqCom.default)
+                // console.log("reqCom", reqCom)
+                // 如果这个组件选项是通过 `export default` 导出的，
+                // 那么就会优先使用 `.default`，
+                // 否则回退到使用模块的根。
             _Vue.component(componentName, reqCom.default || reqCom)
-            // console.log(Vue.prototype)
+                // console.log(Vue.prototype)
         })
     }
 }

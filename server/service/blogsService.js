@@ -40,6 +40,16 @@ class blogsService {
             }
         })
     }
+    static async deleteBlogById(data, id) {
+        console.log(data, id)
+        return await Blogs.update({
+            ...data
+        }, {
+            where: {
+                id: id
+            }
+        })
+    }
 }
 
 

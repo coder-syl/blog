@@ -7,6 +7,7 @@ router.get('/allClassifications', classificationsController.getAllClassification
 router.post('/addClassification', classificationsController.addClassification)
 router.get('/getClassificationById/:id',classificationsController.getClassificationById)
 router.post('/updateClassificationsById/', classificationsController.updateClassificationById)
+router.post('/deleteClassificationsById/', classificationsController.deleteClassificationById)
 
 // router.put('/blog', articleController.updateBlog)
 // router.post('/upload', upload.single('avatar'), async (ctx, next) => {

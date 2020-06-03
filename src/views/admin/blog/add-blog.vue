@@ -47,12 +47,14 @@
             ></el-date-picker>
             <p style="font-size:14px;color:#606266;line-height: 40px">分类</p>
             <el-tree
-              :data="data"
+              ref="tree"
+              :data="listClifys"
               show-checkbox
+              :check-strictly="true"
               v-model="blog.classify"
               node-key="id"
               :default-expand-all="true"
-              :default-checked-keys="[5]"
+              @check-change="setClassify"
             ></el-tree>
 
             <!-- </el-form-item> -->
@@ -81,6 +83,7 @@
 </template>
 <script>
 import { getBlogById, addBlog, updateBlogById } from "@/api/blog/blog";
+import { listClassifications } from "@/api/classifications/classifications";
 export default {
   name: "admin-blog",
   data() {
@@ -91,67 +94,22 @@ export default {
       },
       showEditor: true,
       activeName: "second",
-      data: [
-        {
-          id: 1,
-          label: "一级 1",
-          children: [
-            {
-              id: 4,
-              label: "二级 1-1",
-              children: [
-                {
-                  id: 9,
-                  label: "三级 1-1-1"
-                },
-                {
-                  id: 10,
-                  label: "三级 1-1-2"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          label: "一级 2",
-          children: [
-            {
-              id: 5,
-              label: "二级 2-1"
-            },
-            {
-              id: 6,
-              label: "二级 2-2"
-            }
-          ]
-        },
-        {
-          id: 3,
-          label: "一级 3",
-          children: [
-            {
-              id: 7,
-              label: "二级 3-1"
-            },
-            {
-              id: 8,
-              label: "二级 3-2"
-            }
-          ]
-        }
-      ],
-
+      listClifys: [],
       blog: {
         title: "",
         content: "",
         created_time: null,
         updated_time: null,
-        htmlContent: ""
+        htmlContent: "",
+        classificationId:""
       },
       idAdd: true,
       // 选中的数组
       ids: [],
+      // 选中的classify
+       selectOrg: {
+        orgsid: []
+      },
       loading: false
     };
   },
@@ -176,6 +134,13 @@ export default {
       console.log(12);
       this.idAdd = true;
     }
+    listClassifications(this.queryParams).then(response => {
+      // console.log(response);
+      this.listClifys = response.data;
+      console.log(this.tableData);
+      // console.log(response.result[0].id);
+      // this.loading = false;
+    });
   },
   methods: {
     getHtmlContent(value, html) {
@@ -235,6 +200,37 @@ export default {
         }
       });
     },
+    setClassify(data, checked, indeterminate) {
+      console.log(data, "数据");
+      console.log(checked, "选中状态");
+      console.log(indeterminate, "子树中选中状态");
+      // 获取当前选择的id在数组中的索引
+      const indexs = this.selectOrg.orgsid.indexOf(data.id);
+      // 如果不存在数组中，并且数组中已经有一个id并且checked为true的时候，代表不能再次选择。
+      if (indexs < 0 && this.selectOrg.orgsid.length === 1 && checked) {
+        console.log("only one");
+        this.$message({
+          message: "只能选择一个分类！",
+          type: "error",
+          showClose: true
+        });
+        // 设置已选择的节点为false 很重要
+        this.$refs.tree.setChecked(data, false);
+      } else if (this.selectOrg.orgsid.length === 0 && checked) {
+        // 发现数组为空 并且是已选择
+        // 防止数组有值，首先清空，再push
+        this.selectOrg.orgsid = [];
+        this.selectOrg.orgsid.push(data.id);
+      } else if (
+        indexs >= 0 &&
+        this.selectOrg.orgsid.length === 1 &&
+        !checked
+      ) {
+        // 再次直接进行赋值为空操作
+        this.selectOrg.orgsid = [];
+      }
+      this.blog.classificationId=this.selectOrg.orgsid;
+    },
     resetQuery(formName) {
       this.$refs[formName].resetFields();
     }
@@ -252,19 +248,18 @@ export default {
   height: 100%;
   /* height: 600px; */
 }
-@media screen and  (min-height : 800px) {
+@media screen and (min-height: 800px) {
   .v-note-wrapper {
     height: 650px !important;
     box-shadow: none !important;
   }
 }
-@media screen and  (max-height : 800px) {
+@media screen and (max-height: 800px) {
   .v-note-wrapper {
     height: 530px !important;
     box-shadow: none !important;
   }
 }
-
 
 .v-note-wrapper.shadow {
   border: 1px solid #dcdfe6 !important;

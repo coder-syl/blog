@@ -61,13 +61,16 @@
       ref="multipleTable"
       v-loading="loading"
       :data="tableData"
+      row-key="id"
       tooltip-effect="dark"
       style="width: 100%"
+      :tree-props="{children: 'children'}"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="name" label="标签名" width="200" show-overflow-tooltip></el-table-column>
       <el-table-column prop="paper_count" label="文章数" width="200" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="parent_name" label="上级标签" width="200" show-overflow-tooltip></el-table-column>
       <el-table-column prop="created_time" label="创建时间" show-overflow-tooltip></el-table-column>
       <el-table-column prop="deletf" label="是否已删除" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
@@ -138,7 +141,7 @@
               v-for="item in tableData"
               :key="item.id"
               :label="item.name"
-              :value="item.value"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -151,7 +154,11 @@
   </div>
 </template>
 <script>
-import { listClassifications ,addClassification} from "@/api/classifications/classifications";
+import {
+  listClassifications,
+  addClassification,
+  deleteClassificationsById
+} from "@/api/classifications/classifications";
 export default {
   name: "admin-blog",
   data() {
@@ -173,7 +180,7 @@ export default {
         name: "",
         created_time: "",
         deletf: "",
-        parentId:""
+        parentId: ""
       },
       single: true,
       multiple: true,
@@ -197,6 +204,7 @@ export default {
     listClassifications(this.queryParams).then(response => {
       // console.log(response);
       this.tableData = response.data;
+      console.log(this.tableData)
       // console.log(response.result[0].id);
       // this.loading = false;
     });
@@ -230,10 +238,15 @@ export default {
         path: "add-blog/" + this.multipleSelection[0].id
       });
     },
-    handleDelete() {},
+    handleDelete(row) {
+        // console.log(data)
+        deleteClassificationsById(row.deletf,row.id).then(response=>{
+
+        })
+    },
     handleQuery() {},
     handleAdd() {
-              console.log(this.form);
+      console.log(this.form);
 
       addClassification(this.form, true).then(response => {
         console.log(this.form);
@@ -242,11 +255,11 @@ export default {
         // this.loading = false;
         if (response.code === 200) {
           listClassifications(this.queryParams).then(response => {
-      // console.log(response);
-      this.tableData = response.data;
-      // console.log(response.result[0].id);
-      // this.loading = false;
-    });
+            // console.log(response);
+            this.tableData = response.data;
+            // console.log(response.result[0].id);
+            // this.loading = false;
+          });
           this.$message({
             message: "添加成功",
             type: "success"
@@ -254,8 +267,7 @@ export default {
         } else {
           this.$message.error("添加失败");
         }
-      }
-      )
+      });
     },
     resetQuery(formName) {
       this.$refs[formName].resetFields();
