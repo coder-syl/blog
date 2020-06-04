@@ -2,10 +2,10 @@
 <template>
   <div>
     <div>
-      <el-form :model="blog" ref="queryForm" label-width="68px">
+      <el-form :model="blog" ref="queryForm" :rules="rules" label-width="68px">
         <el-row :gutter="20">
           <el-col :span="18">
-            <el-form-item label="文章名" prop="name">
+            <el-form-item label="文章名" prop="title">
               <el-input
                 placeholder="请输入文章名"
                 v-model="blog.title"
@@ -17,7 +17,7 @@
             <!-- <el-form-item label="内容" class="animated bounce blog-detail" v-show="showEditor">
               <quill-editor v-model="blog.content" ref="myQuillEditor" :options="editorOption"></quill-editor>
             </el-form-item>-->
-            <el-form-item label="内容" class="blog-detail">
+            <el-form-item label="内容" class="blog-detail" prop="content">
               <mavon-editor v-model="blog.content" @change="getHtmlContent" />
             </el-form-item>
           </el-col>
@@ -36,6 +36,7 @@
               v-model="blog.created_time"
               placeholder="选择日期"
               style="width: 100%;"
+              required
             ></el-date-picker>
             <p style="font-size:14px;color:#606266;line-height: 40px">最近更新</p>
             <el-date-picker
@@ -50,13 +51,12 @@
               ref="tree"
               :data="listClifys"
               show-checkbox
-              :check-strictly="true"
-              v-model="blog.classify"
+              v-model="blog.classification_id"
               node-key="id"
+              :check-strictly="true"
               :default-expand-all="true"
               @check-change="setClassify"
             ></el-tree>
-
             <!-- </el-form-item> -->
           </el-col>
           <el-col :span="24" style="margin-top:20px">
@@ -101,13 +101,35 @@ export default {
         created_time: null,
         updated_time: null,
         htmlContent: "",
-        classificationId:""
+        classification_id: "",
+        parent_classification_id: ""
+      },
+      rules: {
+        title: [
+          { required: true, message: "请输入标题", trigger: "blur" }
+          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        content: [
+          { required: true, message: "请填写文章内容", trigger: "change" }
+        ],
+        created_time: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change"
+          }
+        ],
+
+        classification_id: [
+          { required: true, message: "请选择分类", trigger: "change" }
+        ]
       },
       idAdd: true,
       // 选中的数组
       ids: [],
       // 选中的classify
-       selectOrg: {
+      selectOrg: {
         orgsid: []
       },
       loading: false
@@ -201,10 +223,15 @@ export default {
       });
     },
     setClassify(data, checked, indeterminate) {
+      console.log(data.pa);
+      console.log(this.$refs.tree.getHalfCheckedNodes(), "父节点");
+      // console.log(, "父节点");
       console.log(data, "数据");
       console.log(checked, "选中状态");
       console.log(indeterminate, "子树中选中状态");
       // 获取当前选择的id在数组中的索引
+      this.blog.classification_id = "";
+      this.blog.parent_classification_id = "";
       const indexs = this.selectOrg.orgsid.indexOf(data.id);
       // 如果不存在数组中，并且数组中已经有一个id并且checked为true的时候，代表不能再次选择。
       if (indexs < 0 && this.selectOrg.orgsid.length === 1 && checked) {
@@ -229,7 +256,14 @@ export default {
         // 再次直接进行赋值为空操作
         this.selectOrg.orgsid = [];
       }
-      this.blog.classificationId=this.selectOrg.orgsid;
+      this.blog.classification_id = this.selectOrg.orgsid;
+      console.log(
+        this.$refs.tree.getNode(data.id).parent.data.id,
+        "this.$refs.tree.getNode(data.id).parent.data.id"
+      );
+      this.blog.parent_classification_id = this.$refs.tree.getNode(
+        data.id
+      ).parent.data.id;
     },
     resetQuery(formName) {
       this.$refs[formName].resetFields();

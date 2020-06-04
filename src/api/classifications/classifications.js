@@ -27,21 +27,21 @@ export function addClassification(article, hasLoading = false) {
     })
 
 }
-export function updateClassificationById(article, hasLoading = false) {
+export function updateClassificationById(data, hasLoading = false) {
     return request({
         url: '/updateClassificationById/',
         method: 'post',
-        params: article,
+        data: data,
         hasLoading: hasLoading
     })
 
 }
 // 删除项目信息
-export function deleteClassificationsById(deletf,id,hasLoading = false) {
+export function deleteClassificationsById(deletef,id,hasLoading = false) {
     return request({
-        url: "/deleteClassificationsById/" + id,
+        url: "/deleteClassificationsById/",
         method: 'post',
-        data:{deletf,id},
+        data:{deletef,id},
         hasLoading: hasLoading
 
     })

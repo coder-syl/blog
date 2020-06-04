@@ -47,8 +47,12 @@
 
 <script>
 import { listBlog } from "@/api/blog/blog";
-
 export default {
+  props: {
+    curClaId: {
+      default: 0
+    }
+  },
   data() {
     return {
       hasLoding: true,
@@ -68,6 +72,23 @@ export default {
       // console.log( str)
       // return str.replace(/<[^>]*>|/g, "").replace(/\\n/g, "");
       return str.replace(/#/g, "").replace(/\\n/g, "");
+    }
+  },
+  watch: {
+    curClaId: function(newV) {
+      if (newV === 0) {
+        listBlog().then(res => {
+          this.blogList = res.data;
+          console.log(res);
+          this.hasLoding = false;
+        });
+      } else {
+        listBlog({ classification_id: newV }).then(res => {
+          this.blogList = res.data;
+          console.log(res);
+          this.hasLoding = false;
+        });
+      }
     }
   },
   mounted() {
@@ -92,6 +113,7 @@ export default {
   border: 1px solid rgba(178, 186, 194, 0.15);
   /* border: 1px solid black; */
   background-color: #fff;
+  height: 100%;
 }
 .blog {
   border-bottom: 1px solid rgba(178, 186, 194, 0.15);

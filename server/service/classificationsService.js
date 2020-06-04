@@ -8,7 +8,7 @@ class classificationsService {
     /** 获取所有文章 */
     static async  getAllClassifications(query) {
         let data=null
-        await Sequelize.query("select child.name,child.deletf,child.id,child.parentId,child.created_time ,parent.name as parent_name FROM classifications parent right join classifications child on parent.id=child.parentId or child.parentId=child.id").spread(function (results, metadata) {
+        await Sequelize.query("select child.name,child.deletef,child.id,child.parentId,child.created_time ,parent.name as parent_name FROM classifications parent right join classifications child on parent.id=child.parentId or child.parentId=child.id").spread(function (results, metadata) {
             // Results 会是一个空数组和一个包含受影响行数的metadata 元数据对象
             // console.log(results,'results');
         //    data= results;
@@ -51,10 +51,10 @@ class classificationsService {
             }
         })
     }
-    static async deleteClassificationById(deletf, id) {
-        console.log(data, id)
+    static async deleteClassificationById(deletef, id) {
+        console.log(deletef, id)
         return await Classifications.update({
-            deletf:deletf
+            deletef:deletef
         }, {
             where: {
                 id: id

@@ -15,7 +15,7 @@ const classifications = (sequelize,DataTypes)=>{
             type:DataTypes.DATE
         },
        
-        deletf:{
+        deletef:{
             type: DataTypes.INTEGER(1),
             defaultValue: DataTypes.UUIDV1,
         },

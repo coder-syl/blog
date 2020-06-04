@@ -15,7 +15,9 @@
       >
         <el-menu-item index="/index">首页</el-menu-item>
         <el-submenu index="2">
-          <template slot="title"><span style="font-size:16px;">分类</span></template>
+          <template slot="title">
+            <span style="font-size:16px;">分类</span>
+          </template>
           <el-menu-item index="2-1">选项1</el-menu-item>
           <el-menu-item index="2-2">选项2</el-menu-item>
           <el-menu-item index="2-3">选项3</el-menu-item>
@@ -34,12 +36,20 @@
 </template>
 
 <script>
+import { listClassifications } from "@/api/classifications/classifications";
+
 export default {
   data() {
     return {
       activeIndex: "1",
       url: "http://sylblog.xin/usr/themes/Akina/images/akina.png"
     };
+  },
+  mounted() {
+    listClassifications(this.queryParams).then(response => {
+      this.tableData = response.data;
+      console.log(this.tableData);
+    });
   },
   methods: {
     handleSelect(key, keyPath) {

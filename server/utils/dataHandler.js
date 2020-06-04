@@ -9,7 +9,7 @@ const jsonTree = (data, parentId) => {
             // 编写文章中树形结构用
             newNode.label = node.name;
             newNode.created_time = node.created_time;
-            newNode.deletf = node.deletf;
+            newNode.deletef = node.deletef;
             newNode.parent_name = node.parent_name ? node.parent_name : "顶级";
             newNode.children = jsonTree(data, node.id);
             itemArr.push(newNode);

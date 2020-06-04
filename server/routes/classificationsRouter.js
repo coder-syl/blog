@@ -6,7 +6,7 @@ router.prefix("/api/v1")
 router.get('/allClassifications', classificationsController.getAllClassifications)
 router.post('/addClassification', classificationsController.addClassification)
 router.get('/getClassificationById/:id',classificationsController.getClassificationById)
-router.post('/updateClassificationsById/', classificationsController.updateClassificationById)
+router.post('/updateClassificationById/', classificationsController.updateClassificationById)
 router.post('/deleteClassificationsById/', classificationsController.deleteClassificationById)
 
 // router.put('/blog', articleController.updateBlog)

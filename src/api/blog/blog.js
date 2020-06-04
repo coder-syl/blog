@@ -4,7 +4,7 @@ export function listBlog(query, hasLoading = false) {
     return request({
         url: '/allBlogs',
         method: 'get',
-        // params: query,
+        params: query,
         hasLoading: hasLoading
     })
 }

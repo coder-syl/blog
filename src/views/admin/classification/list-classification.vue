@@ -1,11 +1,11 @@
 <!--  -->
 <template>
   <div>
-    <div>
+    <div style="margin-bottom:20px;">
       <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-        <el-form-item label="文章名" prop="name">
+        <el-form-item label="标签名" prop="name">
           <el-input
-            placeholder="请输入文章名"
+            placeholder="请输入标签名"
             v-model="queryParams.name"
             clearable
             size="small"
@@ -28,7 +28,7 @@
             @click="dialogFormVisible = true"
           >新建标签</el-button>
         </el-col>
-        <el-col :span="1.5">
+        <!-- <el-col :span="1.5">
           <el-button
             type="success"
             icon="el-icon-edit"
@@ -36,7 +36,7 @@
             :disabled="single"
             @click="handleUpdate"
           >修改</el-button>
-        </el-col>
+        </el-col>-->
         <el-col :span="1.5">
           <el-button
             type="danger"
@@ -57,9 +57,11 @@
         </el-col>-->
       </el-row>
     </div>
+
     <el-table
       ref="multipleTable"
       v-loading="loading"
+      default-expand-all
       :data="tableData"
       row-key="id"
       tooltip-effect="dark"
@@ -72,19 +74,18 @@
       <el-table-column prop="paper_count" label="文章数" width="200" show-overflow-tooltip></el-table-column>
       <el-table-column prop="parent_name" label="上级标签" width="200" show-overflow-tooltip></el-table-column>
       <el-table-column prop="created_time" label="创建时间" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="deletf" label="是否已删除" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="deletef" label="是否已删除" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
       <el-table-column prop="url" label="地址" show-overflow-tooltip></el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <!-- <el-button
+          <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['biz:server:edit']"
-          >修改</el-button>-->
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleDetail(scope.row)">详细</el-button>
+            @click="updateClassification(scope.row)"
+          >更新</el-button>
+          <!-- <el-button size="mini" type="text" icon="el-icon-edit" @click="handleDetail(scope.row)">详细</el-button> -->
           <el-button
             size="mini"
             type="text"
@@ -129,26 +130,22 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="是否删除" label-width="70px">
-          <el-select v-model="form.deletf" placeholder="是否删除？" style="width:220px">
+          <el-select v-model="form.deletef" placeholder="是否删除？" style="width:220px">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="父标签" label-width="70px">
-          <el-select v-model="form.parentId" placeholder="是否删除？" style="width:220px">
+          <el-select v-model="form.parentId" placeholder="请选择父标签" style="width:220px">
             <el-option label="无" value="0"></el-option>
-            <el-option
-              v-for="item in tableData"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
+            <el-option v-for="item in tableData" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleAdd">确 定</el-button>
+        <el-button type="primary" v-show="isAdd" @click="handleAdd">确 定</el-button>
+        <el-button type="primary" v-show="!isAdd" @click="handleUpdate">更 新</el-button>
       </div>
     </el-dialog>
   </div>
@@ -157,7 +154,8 @@
 import {
   listClassifications,
   addClassification,
-  deleteClassificationsById
+  deleteClassificationsById,
+  updateClassificationById
 } from "@/api/classifications/classifications";
 export default {
   name: "admin-blog",
@@ -179,9 +177,10 @@ export default {
       form: {
         name: "",
         created_time: "",
-        deletf: "",
+        deletef: "",
         parentId: ""
       },
+      isAdd: true,
       single: true,
       multiple: true,
       loading: false,
@@ -200,16 +199,24 @@ export default {
     //   this.tableData = response.data.result;
     //   console.log(response.data);
     // });
-    console.log("文章管理");
-    listClassifications(this.queryParams).then(response => {
-      // console.log(response);
-      this.tableData = response.data;
-      console.log(this.tableData)
-      // console.log(response.result[0].id);
-      // this.loading = false;
-    });
+    this.getALlClaaifications(); // listClassifications(this.queryParams).then(response => {
+    //   // console.log(response);
+    //   this.tableData = response.data;
+    //   console.log(this.tableData);
+    //   // console.log(response.result[0].id);
+    //   // this.loading = false;
+    // });
   },
   methods: {
+    getALlClaaifications() {
+      listClassifications(this.queryParams).then(response => {
+        // console.log(response);
+        this.tableData = response.data;
+        console.log(this.tableData);
+        // console.log(response.result[0].id);
+        // this.loading = false;
+      });
+    },
     //pageSize改变时触发的函数
     handleSizeChange(val) {},
     //当前页改变时触发的函数
@@ -233,33 +240,44 @@ export default {
       this.multiple = !this.multipleSelection.length;
       this.single = this.multipleSelection.length != 1;
     },
-    handleUpdate(rows) {
-      this.$router.push({
-        path: "add-blog/" + this.multipleSelection[0].id
+    updateClassification(rows) {
+      this.form = rows;
+      this.dialogFormVisible = true;
+    },
+    handleUpdate() {
+      updateClassificationById(this.form).then(response => {
+        this.getALlClaaifications();
+        if (response.code === 200) {
+          this.getALlClaaifications();
+          this.$message({
+            message: "更新成功",
+            type: "success"
+          });
+        } else {
+          this.$message.error("更新失败");
+        }
       });
     },
     handleDelete(row) {
-        // console.log(data)
-        deleteClassificationsById(row.deletf,row.id).then(response=>{
-
-        })
+      deleteClassificationsById((row.deletef = 1), row.id).then(response => {
+        this.getALlClaaifications();
+        if (response.code === 200) {
+          this.getALlClaaifications();
+          this.$message({
+            message: "删除成功",
+            type: "success"
+          });
+        } else {
+          this.$message.error("删除失败");
+        }
+      });
     },
     handleQuery() {},
     handleAdd() {
-      console.log(this.form);
-
       addClassification(this.form, true).then(response => {
         console.log(this.form);
-        // this.blog = response.data;
-        // console.log(response.result[0].id);
-        // this.loading = false;
         if (response.code === 200) {
-          listClassifications(this.queryParams).then(response => {
-            // console.log(response);
-            this.tableData = response.data;
-            // console.log(response.result[0].id);
-            // this.loading = false;
-          });
+          this.getALlClaaifications();
           this.$message({
             message: "添加成功",
             type: "success"

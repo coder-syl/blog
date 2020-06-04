@@ -5,11 +5,11 @@ class classificationsController {
         const { query } = ctx.request; // 获取前端传来的参数
         try {
             let data = await classificationsService.getAllClassifications(query)
-            // await Sequelize.query("select child.name,child.deletf,child.id,child.parentId,parent.name as parentName FROM classifications parent left join classifications child on parent.id=child.parentId or child.parentId=0").spread(function(results, metadata) {
-            //         // Results 会是一个空数组和一个包含受影响行数的metadata 元数据对象
-            //         data = results;
-            //     }) // let data = await classificationsService.getAllClassifications(query) // 获取查询的数据
-            console.log(data,'data');
+                // await Sequelize.query("select child.name,child.deletef,child.id,child.parentId,parent.name as parentName FROM classifications parent left join classifications child on parent.id=child.parentId or child.parentId=0").spread(function(results, metadata) {
+                //         // Results 会是一个空数组和一个包含受影响行数的metadata 元数据对象
+                //         data = results;
+                //     }) // let data = await classificationsService.getAllClassifications(query) // 获取查询的数据
+            console.log(data, 'data');
 
             ctx.response.status = 200;
             ctx.body = {
@@ -80,10 +80,10 @@ class classificationsController {
         }
     }
     static async updateClassificationById(ctx) {
-        let req = ctx.request.query;
+        let req = ctx.request.body;
         console.log('req', req)
 
-        if (req.title && req.content) {
+        if (req.name && req.id) {
             try {
                 let data = await classificationsService.updateClassificationById(req, req.id)
                 ctx.response.status = 200
@@ -105,17 +105,19 @@ class classificationsController {
             ctx.response.status = 416
             ctx.body = {
                 code: 416,
-                msg: '参数不全',
+                msg: '参数不全----------',
             }
         }
     }
     static async deleteClassificationById(ctx) {
         let req = ctx.request.body;
         console.log('req', req)
+        console.log('req', req.deletef)
+        console.log('req', req.id)
 
-        if (req.title && req.content) {
+        if (req.deletef && req.id) {
             try {
-                let data = await classificationsService.deleteClassificationById(req.deletf, req.id)
+                let data = await classificationsService.deleteClassificationById(req.deletef, req.id)
                 ctx.response.status = 200
                 ctx.body = {
                     code: 200,
@@ -135,7 +137,7 @@ class classificationsController {
             ctx.response.status = 416
             ctx.body = {
                 code: 416,
-                msg: '参数不全',
+                msg: '参数不全------',
             }
         }
     }

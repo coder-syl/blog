@@ -1,24 +1,38 @@
 <template>
-  <div class="layout"
->
+  <div class="layout">
     <navMenu></navMenu>
-    <div style="width: 70%;
-  margin: auto;">    <router-view></router-view>
-</div>
+    <tagMenu v-model="curClaId"></tagMenu>
+
+    <div style="width: 70%;margin: auto;">
+      <router-view :curClaId='curClaId'></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 import navMenu from "@/components/home/nav-menu";
+import tagMenu from "@/components/home/tag-menu";
 export default {
   components: {
-    navMenu
+    navMenu,
+    tagMenu
+  },
+  data(){
+    return {
+      curClaId:''
+    }
+  },
+  watch:{
+    curClaId:function(newV){
+      console.log(newV,'curClaId')
+    }
   }
+
 };
 </script>
 
 <style>
-.layout{
+.layout {
   background-color: #f4f5f5;
   height: 100%;
 }

@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div>
-    <div>
+    <div style="margin-bottom:20px;">
       <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
         <el-form-item label="文章名" prop="name">
           <el-input
@@ -12,7 +12,6 @@
             @keyup.enter.native="handleQuery"
           />
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
           <el-button icon="el-icon-refresh" size="mini" @click="resetQuery('queryForm')">重置</el-button>
@@ -64,8 +63,9 @@
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="title" label="标题" width="200" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="description" label="分类" width="120" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="" label="标签" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="classification_id" label="分类" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="author" label="作者" width="120" show-overflow-tooltip></el-table-column>
+      <!-- <el-table-column prop label="标签" width="120" show-overflow-tooltip></el-table-column> -->
       <el-table-column prop="created_time" label="日期" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
       <el-table-column prop="url" label="地址" show-overflow-tooltip></el-table-column>-->
