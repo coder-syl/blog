@@ -66,7 +66,12 @@
       <el-table-column prop="classification_id" label="分类" width="120" show-overflow-tooltip></el-table-column>
       <el-table-column prop="author" label="作者" width="120" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop label="标签" width="120" show-overflow-tooltip></el-table-column> -->
-      <el-table-column prop="created_time" label="日期" show-overflow-tooltip></el-table-column>
+      <el-table-column
+        :formatter="formatDate"
+        prop="created_time"
+        label="发布日期"
+        show-overflow-tooltip
+      ></el-table-column>
       <!-- <el-table-column prop="description" label="简介" show-overflow-tooltip></el-table-column>
       <el-table-column prop="url" label="地址" show-overflow-tooltip></el-table-column>-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -94,10 +99,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <div style="margin-top: 20px">
-      <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
-      <el-button @click="toggleSelection()">取消选择</el-button>
-    </div>-->
     <div class="block">
       <el-pagination
         :total="total"
@@ -141,13 +142,6 @@ export default {
     };
   },
   created() {
-    // this.loading = true;
-    // this.axios.get("/listProject").then(response => {
-    //   this.tableData = response.data.result;
-    //   console.log(response.data);
-    // });
-    console.log("文章管理");
-    // this.queryParams
     this.getAllBlog();
   },
   methods: {
@@ -157,8 +151,19 @@ export default {
     handleCurrentChange: function() {
       console.log("页码改变了" + this.pageConf.pageCode);
     },
+    formatDate(row, column,created_time){
+      let createTime = new Date(created_time);
+      return (
+        createTime.getFullYear() +
+        "年" +
+        (createTime.getMonth() + 1) +
+        "月" +
+        createTime.getDate() +
+        "日"
+      );
+    },
     getAllBlog() {
-      listBlog().then(response => {
+      listBlog(true).then(response => {
         this.tableData = response.data;
       });
     },
@@ -184,7 +189,7 @@ export default {
       });
     },
     handleDelete(row) {
-      deleteBlogById(1, row.id).then(res => {
+      deleteBlogById(1, row.id).then(response => {
         this.getAllBlog();
         if (response.code === 200) {
           this.$message({

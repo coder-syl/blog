@@ -37,14 +37,17 @@
               placeholder="选择日期"
               style="width: 100%;"
               required
+              disabled
+              value-format="yyyy-MM-dd"
             ></el-date-picker>
-            <p style="font-size:14px;color:#606266;line-height: 40px">最近更新</p>
+            <p style="font-size:14px;color:#606266;line-height: 40px">上次更新</p>
             <el-date-picker
               type="date"
               v-model="blog.updated_time"
               placeholder="选择日期"
               style="width: 100%;"
               disabled
+              value-format="yyyy-MM-dd"
             ></el-date-picker>
             <p style="font-size:14px;color:#606266;line-height: 40px">分类</p>
             <el-tree
@@ -98,8 +101,8 @@ export default {
       blog: {
         title: "",
         content: "",
-        created_time: null,
-        updated_time: null,
+        created_time: new Date(),
+        updated_time: new Date(),
         htmlContent: "",
         classification_id: "",
         parent_classification_id: ""
@@ -135,62 +138,28 @@ export default {
       loading: false
     };
   },
-  created() {
-    // this.loading = true;
-    // this.axios.get("/listProject").then(response => {
-    //   this.tableData = response.data.result;
-    //   console.log(response.data);
-    // });
-    console.log("文章管理");
-    console.log(this.$router);
-    console.log(this.$route.params.id);
+  mounted() {
+    // 根据是否带有文章id判断是否更新还是新增
     if (this.$route.params.id) {
       getBlogById(this.$route.params.id, true).then(response => {
-        // console.log(response);
         this.blog = response.data;
-        // console.log(response.result[0].id);
-        // this.loading = false;
+        console.log(this.blog.created_time);
       });
       this.idAdd = false;
     } else {
-      console.log(12);
       this.idAdd = true;
     }
     listClassifications(this.queryParams).then(response => {
-      // console.log(response);
       this.listClifys = response.data;
-      console.log(this.tableData);
-      // console.log(response.result[0].id);
-      // this.loading = false;
     });
   },
   methods: {
     getHtmlContent(value, html) {
       this.blog.htmlContent = html;
     },
-    //pageSize改变时触发的函数
-    handleSizeChange(val) {},
-    //当前页改变时触发的函数
-    handleCurrentChange: function() {
-      console.log("页码改变了");
-    },
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
-    },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
-      this.ids = this.multipleSelection.map(item => item.id);
-      console.log("ids", this.ids);
-      this.multiple = !this.multipleSelection.length;
-      this.single = this.multipleSelection.length != 1;
-    },
+
     handleUpdate() {
+      this.blog.updated_time=new Date()
       updateBlogById(this.blog, true).then(response => {
         if (response.code === 200) {
           this.$message({
@@ -202,16 +171,10 @@ export default {
         }
       });
     },
-    handleDelete() {},
-    handleQuery() {},
     handleAdd() {
       this.blog.updated_time = this.blog.created_time;
       this.blog.author = "coder-syl";
       addBlog(this.blog, true).then(response => {
-        // console.log(response);
-        // this.blog = response.data;
-        // console.log(response.result[0].id);
-        // this.loading = false;
         if (response.code === 200) {
           this.$message({
             message: "添加成功",

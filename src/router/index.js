@@ -55,12 +55,12 @@ export default new Router({
             path: '/admin',
             name: "admin",
             component: require('@admin/layout').default,
-            redirect: 'admin/index',
+            redirect: 'index',
             children: [{
                     path: 'project',
                     name: "project",
                     component: require('@admin/project').default,
-                    meta: { title: '页面1', icon: '' },
+                    meta: { title: 'project', icon: '' },
 
                 },
                 {

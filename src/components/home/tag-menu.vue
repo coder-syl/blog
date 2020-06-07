@@ -59,7 +59,7 @@ export default {
       if (scrollTop >= 130) {
         vm.isFixed = "tag-menu-fixed";
         // vm.setFixed("tag-menu-fixed")
-        console.log(vm.isFixed);
+        // console.log(vm.isFixed);
       } else {
         vm.isFixed = "";
       }
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     getBlog(item) {
       if(item.id===0){

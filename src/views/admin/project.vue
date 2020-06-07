@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div>
-    <div>
+    <div style="margin-bottom:20px;">
       <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
         <el-form-item label="项目名" prop="name">
           <el-input
@@ -158,15 +158,10 @@ export default {
     console.log("process.env.VUE_APP_BASE_API", process.env);
 
     this.loading = true;
-    // this.axios.get("/listProject").then(response => {
-    //   this.tableData = response.data.result;
-    //   console.log(response.data);
-    // });
+   
     listProject(this.queryParams, true).then(response => {
-      console.log(response);
       this.tableData = response.result;
-      // console.log(response.result[0].id);
-      // this.loading = false;
+  
     });
   },
   methods: {

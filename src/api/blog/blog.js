@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 // 查询文章列表
-export function listBlog(query, hasLoading = false) {
+export function listBlog(hasLoading = false) {
     return request({
         url: '/allBlogs',
         method: 'get',
-        params: query,
+        // params: query,
         hasLoading: hasLoading
     })
 }

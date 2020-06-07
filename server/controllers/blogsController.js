@@ -2,8 +2,6 @@ const blogsService = require("../service/blogsService");
 
 class blogsController {
     static async getAllBlog(ctx) {
-        console.log(ctx.request)
-        const { query } = ctx.request; // 获取前端传来的参数
         try {
             let data = await blogsService.getAllBlog(); // 获取查询的数据
             ctx.response.status = 200;
@@ -50,6 +48,7 @@ class blogsController {
         const id = ctx.params.id; // 获取前端传来的参数
         try {
             let data = await blogsService.getBlogById(id); // 获取查询的数据
+            console.log(data)
             ctx.response.status = 200;
             ctx.body = {
                 code: 200,
