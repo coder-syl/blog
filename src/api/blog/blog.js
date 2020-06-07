@@ -18,6 +18,15 @@ export function getBlogById(id, hasLoading = true) {
         hasLoading: hasLoading
     })
 }
+// 根据id获取文章
+export function getBlogByClassification(id, hasLoading = true) {
+    return request({
+        url: '/getBlogByClassification/' + id,
+        method: 'get',
+        // params:query,
+        hasLoading: hasLoading
+    })
+}
 export function addBlog(article, hasLoading = false) {
     return request({
         url: '/addBlog/',
@@ -41,6 +50,16 @@ export function delProject(id) {
     return request({
         url: "/delProject/" + id,
         method: 'delete'
+
+    })
+}
+// 删除信息
+export function deleteBlogById(deletef, id, hasLoading = false) {
+    return request({
+        url: "/deleteBlogById/",
+        method: 'post',
+        data: { deletef, id },
+        hasLoading: hasLoading
 
     })
 }

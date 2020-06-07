@@ -1,6 +1,6 @@
 const router = require('koa-router')()
 const blogsController = require('../controllers/blogsController')
-// const multer = require('koa-multer');
+    // const multer = require('koa-multer');
 
 router.prefix('/api/v1')
 
@@ -22,8 +22,10 @@ router.prefix('/api/v1')
 
 router.get('/allBlogs', blogsController.getAllBlog)
 router.post('/addBlog', blogsController.addBlog)
-router.get('/getBlogById/:id',blogsController.getBlogById)
+router.get('/getBlogById/:id', blogsController.getBlogById)
+router.get('/getBlogByClassification/:id', blogsController.getBlogByClassification)
 router.post('/updateBlogById/', blogsController.updateBlogById)
+router.post('/deleteBlogById/', blogsController.deleteBlogById)
 
 // router.put('/blog', articleController.updateBlog)
 // router.post('/upload', upload.single('avatar'), async (ctx, next) => {

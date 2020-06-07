@@ -10,11 +10,11 @@
         class="el-menu-demo"
         mode="horizontal"
         text-color="#545454"
-        @select="handleSelect"
         router
+        @select="getIsIndex"
       >
         <el-menu-item index="/index">首页</el-menu-item>
-        <el-submenu index="2">
+        <!-- <el-submenu index="2">
           <template slot="title">
             <span style="font-size:16px;">分类</span>
           </template>
@@ -27,7 +27,7 @@
             <el-menu-item index="2-4-2">选项2</el-menu-item>
             <el-menu-item index="2-4-3">选项3</el-menu-item>
           </el-submenu>
-        </el-submenu>
+        </el-submenu>-->
         <el-menu-item index="aboutMe">关于我</el-menu-item>
         <el-menu-item index="friends">友情链接</el-menu-item>
       </el-menu>
@@ -48,12 +48,15 @@ export default {
   mounted() {
     listClassifications(this.queryParams).then(response => {
       this.tableData = response.data;
-      console.log(this.tableData);
     });
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    getIsIndex(key, keyPath) {
+      if (key === "/index") {
+        this.$emit("input", true);
+      } else {
+        this.$emit("input", false);
+      }
     }
   }
 };
@@ -68,7 +71,7 @@ export default {
 }
 .nav-menu {
   background-color: #fff;
-  width:100%;
+  width: 100%;
   margin: auto;
   display: flex;
   flex-direction: row;

@@ -9,7 +9,6 @@ class classificationsController {
                 //         // Results 会是一个空数组和一个包含受影响行数的metadata 元数据对象
                 //         data = results;
                 //     }) // let data = await classificationsService.getAllClassifications(query) // 获取查询的数据
-            console.log(data, 'data');
 
             ctx.response.status = 200;
             ctx.body = {
@@ -19,7 +18,6 @@ class classificationsController {
                 count: data.length
             }
         } catch (err) {
-            console.log(err)
             ctx.response.status = 412;
             ctx.body = {
                 code: 412,
@@ -40,7 +38,6 @@ class classificationsController {
                 count: data.length
             }
         } catch (err) {
-            console.log(err)
             ctx.response.status = 412;
             ctx.body = {
                 code: 412,
@@ -51,7 +48,6 @@ class classificationsController {
     }
     static async addClassification(ctx) {
         let req = ctx.request.body
-        console.log('req', req)
 
         if (req.name) {
             try {
@@ -63,7 +59,6 @@ class classificationsController {
                     data
                 }
             } catch (err) {
-                console.log(err)
                 ctx.response.status = 412
                 ctx.body = {
                     code: 412,
@@ -81,7 +76,6 @@ class classificationsController {
     }
     static async updateClassificationById(ctx) {
         let req = ctx.request.body;
-        console.log('req', req)
 
         if (req.name && req.id) {
             try {
@@ -93,7 +87,6 @@ class classificationsController {
                     data
                 }
             } catch (err) {
-                console.log(err)
                 ctx.response.status = 412
                 ctx.body = {
                     code: 412,
@@ -111,9 +104,7 @@ class classificationsController {
     }
     static async deleteClassificationById(ctx) {
         let req = ctx.request.body;
-        console.log('req', req)
-        console.log('req', req.deletef)
-        console.log('req', req.id)
+    
 
         if (req.deletef && req.id) {
             try {
@@ -125,7 +116,6 @@ class classificationsController {
                     data
                 }
             } catch (err) {
-                console.log(err)
                 ctx.response.status = 412
                 ctx.body = {
                     code: 412,

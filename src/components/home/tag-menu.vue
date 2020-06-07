@@ -56,7 +56,7 @@ export default {
         window.pageYOffset ||
         document.body.scrollTop;
 
-      if (scrollTop >= 120) {
+      if (scrollTop >= 130) {
         vm.isFixed = "tag-menu-fixed";
         // vm.setFixed("tag-menu-fixed")
         console.log(vm.isFixed);
@@ -70,6 +70,9 @@ export default {
       console.log(key, keyPath);
     },
     getBlog(item) {
+      if(item.id===0){
+        this.childClassificationsList=[]
+      }
       this.$emit("input", item.id);
     },
     // setFixed(val){

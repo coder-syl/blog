@@ -111,7 +111,7 @@
   </div>
 </template>
 <script>
-import { listBlog, deleteBlogById } from "@/api/blog/blog";
+import { listBlog } from "@/api/blog/blog";
 export default {
   name: "admin-blog",
   data() {
@@ -147,8 +147,12 @@ export default {
     //   console.log(response.data);
     // });
     console.log("文章管理");
-    // this.queryParams
-    this.getAllBlog();
+    listBlog(this.queryParams).then(response => {
+      // console.log(response);
+      this.tableData = response.data;
+      // console.log(response.result[0].id);
+      // this.loading = false;
+    });
   },
   methods: {
     //pageSize改变时触发的函数
@@ -156,11 +160,6 @@ export default {
     //当前页改变时触发的函数
     handleCurrentChange: function() {
       console.log("页码改变了" + this.pageConf.pageCode);
-    },
-    getAllBlog() {
-      listBlog().then(response => {
-        this.tableData = response.data;
-      });
     },
     toggleSelection(rows) {
       if (rows) {
@@ -175,6 +174,7 @@ export default {
       // 这个函数是用来获取当前选中的数据
       this.multipleSelection = val;
       this.ids = this.multipleSelection.map(item => item.id);
+      console.log("ids", this.ids);
       this.multiple = !this.multipleSelection.length;
       this.single = this.multipleSelection.length != 1;
     },
@@ -183,19 +183,7 @@ export default {
         path: "add-blog/" + this.multipleSelection[0].id
       });
     },
-    handleDelete(row) {
-      deleteBlogById(1, row.id).then(res => {
-        this.getAllBlog();
-        if (response.code === 200) {
-          this.$message({
-            message: "删除成功",
-            type: "success"
-          });
-        } else {
-          this.$message.error("删除失败");
-        }
-      });
-    },
+    handleDelete() {},
     handleQuery() {},
     handleAdd() {},
     resetQuery(formName) {

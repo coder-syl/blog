@@ -1,19 +1,22 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
+
 Vue.use(Router)
-
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 export default new Router({
-    // mode: 'hash',
+    // mode: 'history',
 
-    routes: [
-        {
+    routes: [{
             path: '/',
             name: 'home',
             component: require('@views/home/layout').default,
             redirect: 'index',
-            children: [
-                {
+            children: [{
                     path: "/index",
                     name: "index",
                     component: require('@views/home/index').default,
@@ -53,8 +56,7 @@ export default new Router({
             name: "admin",
             component: require('@admin/layout').default,
             redirect: 'admin/index',
-            children: [
-                {
+            children: [{
                     path: 'project',
                     name: "project",
                     component: require('@admin/project').default,
@@ -73,8 +75,7 @@ export default new Router({
                     component: require('@admin/blog/index').default,
                     redirect: "blog/list-blog",
                     meta: { title: 'blog', icon: '' },
-                    children: [
-                        {
+                    children: [{
                             path: 'list-blog',
                             name: "文章列表",
                             component: require('@admin/blog/list-blog').default,
@@ -95,8 +96,7 @@ export default new Router({
                     component: require("@admin/classification/index").default,
                     meta: { title: "classification", icon: "" },
                     redirect: "classification/list-classification",
-                    children: [
-                        {
+                    children: [{
                             path: 'list-classification',
                             name: "分类列表",
                             component: require('@admin/classification/list-classification').default,

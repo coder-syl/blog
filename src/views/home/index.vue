@@ -1,8 +1,19 @@
 <template>
   <div class="index">
     <div class="blogList" v-loading="hasLoding">
+      <div class="blog" v-show="!(blogList.length>0)">
+        <div class="blogHeader"></div>
+        <div class="blogContent">
+          没有数据
+          <!-- <p
+            style="  width: 90%;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+          >{{getContent(item.content)}}</p>-->
+        </div>
+        <div class="blogFooter"></div>
+      </div>
+
       <div v-for="item in blogList" :key="item.id" class="blog">
-        <div class="blogHeader">{{new Date(item.created_time).toLocaleDateString()}}-{{item.author}}</div>
+        <div class="blogHeader">{{ item.created_time| formatDate}}-{{item.author}}</div>
         <div class="blogContent" @click="getBlogDetail(item.id)">
           {{item.title}}
           <!-- <p
@@ -46,7 +57,7 @@
 </template>
 
 <script>
-import { listBlog } from "@/api/blog/blog";
+import { listBlog, getBlogByClassification } from "@/api/blog/blog";
 export default {
   props: {
     curClaId: {
@@ -59,6 +70,23 @@ export default {
       blogList: []
     };
   },
+  filters: {
+    formatDate: function(created_time) {
+      let createTime = new Date(created_time);
+      return (
+        createTime.getFullYear() +
+        "年" +
+        (createTime.getMonth() + 1) +
+        "月" +
+        createTime.getDate() +
+        "日"
+      );
+
+      // if (!value) return ''
+      // value = value.toString()
+      // return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  },
   methods: {
     load() {
       this.count += 2;
@@ -67,7 +95,6 @@ export default {
       this.$router.push({ name: "detail", query: { id: id } });
     },
     getContent(str) {
-      console.log(typeof str);
       str = str.replace(/\n/g, "");
       // console.log( str)
       // return str.replace(/<[^>]*>|/g, "").replace(/\\n/g, "");
@@ -83,7 +110,7 @@ export default {
           this.hasLoding = false;
         });
       } else {
-        listBlog({ classification_id: newV }).then(res => {
+        getBlogByClassification(newV).then(res => {
           this.blogList = res.data;
           console.log(res);
           this.hasLoding = false;

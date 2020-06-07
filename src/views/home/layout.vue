@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-    <navMenu></navMenu>
-    <tagMenu v-model="curClaId"></tagMenu>
+    <navMenu v-model="isIndex"></navMenu>
+    <tagMenu v-show="isIndex" v-model="curClaId"></tagMenu>
 
     <div style="width: 70%;margin: auto;">
-      <router-view :curClaId='curClaId'></router-view>
+      <router-view :curClaId="curClaId"></router-view>
     </div>
   </div>
 </template>
@@ -17,17 +17,14 @@ export default {
     navMenu,
     tagMenu
   },
-  data(){
+  data() {
     return {
-      curClaId:''
-    }
+      curClaId: "",
+      isIndex: true
+    };
   },
-  watch:{
-    curClaId:function(newV){
-      console.log(newV,'curClaId')
-    }
-  }
-
+  mounted() {},
+  watch: {}
 };
 </script>
 
