@@ -79,8 +79,7 @@ export default {
     //     this.isFixed=val
     // }
     getChildren(item) {
-      console.log("---------");
-      console.log(item, "item");
+
       this.$emit("input", item.id);
       let itemTemp = Object.assign({}, item);
       itemTemp.name = "全部";
@@ -153,6 +152,7 @@ export default {
 .child-tag {
   padding-top: 15px;
   background-color: #f4f5f5;
+  margin-bottom: 15px;
 }
 .child-tag > span {
   margin-right: 15px;

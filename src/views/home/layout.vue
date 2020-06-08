@@ -1,9 +1,7 @@
 <template>
   <div class="layout">
     <navMenu v-model="isIndex"></navMenu>
-    <tagMenu v-show="isIndex" v-model="curClaId"></tagMenu>
-
-    <div style="width: 70%;margin: auto;">
+    <div >
       <router-view :curClaId="curClaId"></router-view>
     </div>
   </div>
@@ -23,7 +21,13 @@ export default {
       isIndex: true
     };
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$route.path)
+    if (this.$route.path === "/index") {
+        this.isIndex=true
+      } else {
+this.isIndex=false      }
+  },
   watch: {}
 };
 </script>

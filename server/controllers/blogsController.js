@@ -97,7 +97,7 @@ class blogsController {
         }
     }
     static async updateBlogById(ctx) {
-        let req = ctx.request.query;
+        let req = ctx.request.body
         console.log("req", req);
 
         if (req.title && req.content) {

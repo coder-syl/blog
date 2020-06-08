@@ -45,6 +45,9 @@ export default {
 // @import "../../styles/markdown.css";
 @import "../../styles/markdown.css";
 .blog-detail {
+  width: 70%;
+    margin: auto;
+
   margin-top: 20px;
   display: flex;
   flex-direction: row;

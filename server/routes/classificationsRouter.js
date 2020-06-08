@@ -5,9 +5,9 @@ router.prefix("/api/v1")
 
 router.get('/allClassifications', classificationsController.getAllClassifications)
 router.post('/addClassification', classificationsController.addClassification)
-router.get('/getClassificationById/:id',classificationsController.getClassificationById)
+router.get('/getClassificationById/:id', classificationsController.getClassificationById)
 router.post('/updateClassificationById/', classificationsController.updateClassificationById)
-router.post('/deleteClassificationsById/', classificationsController.deleteClassificationById)
+router.post('/deleteClassificationById/', classificationsController.deleteClassificationById)
 
 // router.put('/blog', articleController.updateBlog)
 // router.post('/upload', upload.single('avatar'), async (ctx, next) => {

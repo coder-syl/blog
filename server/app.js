@@ -6,6 +6,7 @@ const http = require('http');
 app.use(bodyParser());
 const blogs = require("./routes/blogsRouter")
 const classifications = require("./routes/classificationsRouter")
+const projects = require("./routes/projectsRouter")
 
 app.use(async(ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*');
@@ -20,6 +21,7 @@ app.use(async(ctx, next) => {
 
 app.use(blogs.routes(), blogs.allowedMethods());
 app.use(classifications.routes(), classifications.allowedMethods())
+app.use(projects.routes(), projects.allowedMethods())
 
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx)

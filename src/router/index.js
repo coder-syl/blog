@@ -21,11 +21,7 @@ export default new Router({
                     name: "index",
                     component: require('@views/home/index').default,
                 },
-                {
-                    path: '/aboutMe',
-                    name: 'aboutMe',
-                    component: require('@views/home/aboutMe').default
-                },
+
                 {
                     path: '/detail',
                     name: 'detail',
@@ -39,7 +35,11 @@ export default new Router({
             ]
 
         },
-
+        {
+            path: '/aboutMe',
+            name: 'aboutMe',
+            component: require('@views/home/aboutMe').default
+        },
         {
             path: '/test',
             name: 'test',
@@ -56,11 +56,28 @@ export default new Router({
             name: "admin",
             component: require('@admin/layout').default,
             redirect: 'index',
-            children: [{
+            children: [
+                // {
+                //     path: 'project',
+                //     name: "project",
+                //     component: require('@admin/project/project').default,
+                //     meta: { title: 'project', icon: '' },
+
+                // },
+                {
                     path: 'project',
-                    name: "project",
-                    component: require('@admin/project').default,
+                    name: "管理项目",
+                    component: require('@admin/project/index').default,
+                    redirect: "project/list-project",
                     meta: { title: 'project', icon: '' },
+                    children: [{
+                            path: 'list-project',
+                            name: "项目列表",
+                            component: require('@admin/project/list-project').default,
+                            // meta: { title: 's', icon: '' },
+                        }
+
+                    ]
 
                 },
                 {

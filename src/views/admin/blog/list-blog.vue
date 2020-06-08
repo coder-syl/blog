@@ -63,7 +63,7 @@
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="title" label="标题" width="200" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="classification_id" label="分类" width="120" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="classification_name" label="分类" width="120" show-overflow-tooltip></el-table-column>
       <el-table-column prop="author" label="作者" width="120" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop label="标签" width="120" show-overflow-tooltip></el-table-column> -->
       <el-table-column
@@ -215,5 +215,9 @@ export default {
   position: absolute;
   margin-top: 10px;
   margin-right: 10px;
+}
+a {
+    text-decoration: none;
+    color: #fff;
 }
 </style>

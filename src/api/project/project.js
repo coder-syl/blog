@@ -1,19 +1,48 @@
 import request from '@/utils/request'
-// 查询项目信息列表
-export function listProject(query, hasLoading = false) {
+// 查询文章列表
+export function listProjects(query, hasLoading = false) {
     return request({
-        url: 'admin/listProject',
+        url: '/allProjects',
         method: 'get',
-        params: query,
+        // params: query,
         hasLoading: hasLoading
     })
 }
 
-// 删除项目信息
-export function delProject(id) {
+// 根据id获取文章
+export function getProjectById(id, hasLoading = true) {
     return request({
-        url: "/delProject/" + id,
-        method: 'delete'
+        url: '/getProjectById/' + id,
+        method: 'get',
+        // params:query,
+        hasLoading: hasLoading
+    })
+}
+export function addProject(article, hasLoading = false) {
+    return request({
+        url: '/addProject/',
+        method: 'post',
+        data: article,
+        hasLoading: hasLoading
+    })
+
+}
+export function updateProjectById(data, hasLoading = false) {
+    return request({
+        url: '/updateProjectById/',
+        method: 'post',
+        data: data,
+        hasLoading: hasLoading
+    })
+
+}
+// 删除项目信息
+export function deleteProjectById(deletef, id, hasLoading = false) {
+    return request({
+        url: "/deleteProjectById/",
+        method: 'post',
+        data: { deletef, id },
+        hasLoading: hasLoading
 
     })
 }

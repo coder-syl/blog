@@ -37,11 +37,11 @@ export function updateClassificationById(data, hasLoading = false) {
 
 }
 // 删除项目信息
-export function deleteClassificationsById(deletef,id,hasLoading = false) {
+export function deleteClassificationById(deletef, id, hasLoading = false) {
     return request({
-        url: "/deleteClassificationsById/",
+        url: "/deleteClassificationById/",
         method: 'post',
-        data:{deletef,id},
+        data: { deletef, id },
         hasLoading: hasLoading
 
     })

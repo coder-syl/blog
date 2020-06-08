@@ -11,8 +11,9 @@
         mode="horizontal"
         text-color="#545454"
         router
-        @select="getIsIndex"
       >
+        <!-- @select="getIsIndex" -->
+
         <el-menu-item index="/index">首页</el-menu-item>
         <!-- <el-submenu index="2">
           <template slot="title">
@@ -51,13 +52,13 @@ export default {
     });
   },
   methods: {
-    getIsIndex(key, keyPath) {
-      if (key === "/index") {
-        this.$emit("input", true);
-      } else {
-        this.$emit("input", false);
-      }
-    }
+    // getIsIndex(key, keyPath) {
+    //   if (key === "/index") {
+    //     this.$emit("input", true);
+    //   } else {
+    //     this.$emit("input", false);
+    //   }
+    // }
   }
 };
 </script>

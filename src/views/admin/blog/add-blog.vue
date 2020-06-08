@@ -105,7 +105,8 @@ export default {
         updated_time: new Date(),
         htmlContent: "",
         classification_id: "",
-        parent_classification_id: ""
+        parent_classification_id: "",
+        deletef:0
       },
       rules: {
         title: [
@@ -172,7 +173,7 @@ export default {
       });
     },
     handleAdd() {
-      this.blog.updated_time = this.blog.created_time;
+      // this.blog.updated_time = this.blog.created_time;
       this.blog.author = "coder-syl";
       addBlog(this.blog, true).then(response => {
         if (response.code === 200) {

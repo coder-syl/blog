@@ -1,73 +1,79 @@
 <template>
-  <div class="index">
-    <div class="blogList" v-loading="hasLoding">
-      <div class="blog" v-show="!(blogList.length>0)">
-        <div class="blogHeader"></div>
-        <div class="blogContent">
-          没有数据
-          <!-- <p
-            style="  width: 90%;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-          >{{getContent(item.content)}}</p>-->
-        </div>
-        <div class="blogFooter"></div>
-      </div>
-
-      <div v-for="item in blogList" :key="item.id" class="blog">
-        <div class="blogHeader">{{ item.created_time| formatDate}}-{{item.author}}</div>
-        <div class="blogContent" @click="getBlogDetail(item.id)">
-          {{item.title}}
-          <!-- <p
-            style="  width: 90%;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
-          >{{getContent(item.content)}}</p>-->
-        </div>
-        <div class="blogFooter">
-          <el-button size="medium" icon="el-icon-view">{{item.visit_count}}</el-button>
-          <el-button size="medium" icon="el-icon-s-comment">{{item.reply_count}}</el-button>
-        </div>
-      </div>
+  <div>
+    <div>
+      <tagMenu v-model="curClaId"></tagMenu>
     </div>
-    <div class="cardList">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>热门标签</span>
-          <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-        </div>
-        <div v-for="o in 4" :key="o" class="text item cardContent">
-          <div>
-            <el-tag>{{'列容 ' + o }}</el-tag>
+    <div class="index">
+      <div class="blogList" v-loading="hasLoding">
+        <div class="blog" v-show="!(blogList.length>0)">
+          <div class="blogHeader"></div>
+          <div class="blogContent">
+            没有数据
+            <!-- <p
+            style="  width: 90%;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+            >{{getContent(item.content)}}</p>-->
           </div>
-          <div>
-            <el-tag>{{'列容 ' + o }}</el-tag>
+          <div class="blogFooter"></div>
+        </div>
+
+        <div v-for="item in blogList" :key="item.id" class="blog">
+          <div class="blogHeader">{{ item.created_time| formatDate}}-{{item.author}}</div>
+          <div class="blogContent" @click="getBlogDetail(item.id)">
+            {{item.title}}
+            <!-- <p
+            style="  width: 90%;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
+            >{{getContent(item.content)}}</p>-->
+          </div>
+          <div class="blogFooter">
+            <el-button size="medium" icon="el-icon-view">{{item.visit_count}}</el-button>
+            <el-button size="medium" icon="el-icon-s-comment">{{item.reply_count}}</el-button>
           </div>
         </div>
-      </el-card>
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>卡片名称</span>
-          <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-        </div>
-        <div v-for="o in 4" :key="o" class="text item">{{'列表内容 ' + o }}</div>
-      </el-card>
-    </div>
+      </div>
+      <div class="cardList">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>热门标签</span>
+            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+          </div>
+          <div v-for="o in 4" :key="o" class="text item cardContent">
+            <div>
+              <el-tag>{{'列容 ' + o }}</el-tag>
+            </div>
+            <div>
+              <el-tag>{{'列容 ' + o }}</el-tag>
+            </div>
+          </div>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>卡片名称</span>
+            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+          </div>
+          <div v-for="o in 4" :key="o" class="text item">{{'列表内容 ' + o }}</div>
+        </el-card>
+      </div>
 
-    <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+      <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in count" class="infinite-list-item">{{ i }}</li>
-    </ul>-->
+      </ul>-->
+    </div>
   </div>
 </template>
 
 <script>
 import { listBlog, getBlogByClassification } from "@/api/blog/blog";
 export default {
-  props: {
-    curClaId: {
-      default: 0
-    }
-  },
+  // props: {
+  //   curClaId: {
+  //     default: 0
+  //   }
+  // },
   data() {
     return {
       hasLoding: true,
-      blogList: []
+      blogList: [],
+      curClaId: ""
     };
   },
   filters: {
@@ -134,6 +140,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  width: 70%;
+  margin: auto;
 }
 .blogList {
   width: 70%;

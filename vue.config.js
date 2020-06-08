@@ -2,12 +2,13 @@ const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 var webpack = require("webpack")
+
 function resolve(dir) {
     return path.resolve(__dirname, dir)
 }
 // 是否为生产环境
 const isProduction = process.env.NODE_ENV !== 'development'
-// 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
+    // 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
 const devNeedCdn = false
 
 // html-webpack-plugin配置cdn
@@ -39,7 +40,7 @@ const cdn = {
 
 module.exports = {
     // 是都开启eslint
-    lintOnSave: false,
+    // lintOnSave: false,
     // 设置静态资源，防止找不到
     publicPath: './',
     // 
@@ -76,7 +77,7 @@ module.exports = {
         plugins: [
             new CompressionWebpackPlugin({
                 algorithm: 'gzip',
-                test: /\.(js|css)$/,// 匹配文件名
+                test: /\.(js|css)$/, // 匹配文件名
                 threshold: 10000, // 对超过10k的数据压缩
                 deleteOriginalAssets: false, // 不删除源文件
                 minRatio: 0.8 // 压缩比
@@ -101,8 +102,8 @@ module.exports = {
                         output: {
                             comments: false, // 去掉注释
                         },
-                        parallel: true,  // 启用并行压缩
-                        cache: true,    // 启用缓存
+                        parallel: true, // 启用并行压缩
+                        cache: true, // 启用缓存
                         ecma: undefined,
                         warnings: false,
                         parse: {},
@@ -116,7 +117,7 @@ module.exports = {
             ],
             splitChunks: {
                 chunks: 'async',
-                minSize: 30000,//单位是byte，超过这个大小的文件才会被打包
+                minSize: 30000, //单位是byte，超过这个大小的文件才会被打包
                 maxSize: 0,
                 minChunks: 1,
                 maxAsyncRequests: 5,

@@ -17,7 +17,7 @@ export default {
 }
 a {
   text-decoration: none;
-  color: #fff;
+  /* color: #fff; */
 }
 #app {
   height: 100%;

@@ -40,7 +40,7 @@ export function updateBlogById(article, hasLoading = false) {
     return request({
         url: '/updateBlogById/',
         method: 'post',
-        params: article,
+        data: article,
         hasLoading: hasLoading
     })
 
