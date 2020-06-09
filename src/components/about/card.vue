@@ -59,6 +59,17 @@ export default {
   transition: all 0.3s;
   margin-top: 20px;
 }
+@media screen and (min-height: 800px) {
+  .card-content {
+  height: 390px;
+  }
+}
+@media screen and (max-height: 800px) {
+  .card-content {
+    height: 300px !important;
+  }
+}
+
 .card-content:hover {
   margin-top: 0;
   height: 430px;
