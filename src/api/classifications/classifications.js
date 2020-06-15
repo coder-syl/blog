@@ -4,7 +4,7 @@ export function listClassifications(query, hasLoading = false) {
     return request({
         url: '/allClassifications',
         method: 'get',
-        // params: query,
+        params: query,
         hasLoading: hasLoading
     })
 }

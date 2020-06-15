@@ -121,7 +121,13 @@
       ></el-pagination>
     </div>
 
-    <el-dialog title="标签管理" :visible.sync="dialogFormVisible" width="400px">
+    <el-dialog
+      title="标签管理"
+      :visible.sync="dialogFormVisible"
+      @close="restDialogForm"
+      :close-on-click-modal="false"
+      width="400px"
+    >
       <el-form :model="form">
         <el-form-item label="标签名" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" style="width:220px"></el-input>
@@ -214,7 +220,7 @@ export default {
   },
   methods: {
     getALlClaaifications() {
-      listClassifications(this.queryParams).then(response => {
+      listClassifications().then(response => {
         // console.log(response);
         this.tableData = response.data;
         console.log(this.tableData);
@@ -237,6 +243,9 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+    restDialogForm() {
+      this.form = {};
+    },
     handleSelectionChange(val) {
       // 这个函数是用来获取当前选中的数据
       this.multipleSelection = val;
@@ -248,6 +257,7 @@ export default {
     updateClassification(rows) {
       this.form = rows;
       this.dialogFormVisible = true;
+      this.isAdd = false;
     },
     formatDate(row, column, created_time) {
       let createTime = new Date(created_time);

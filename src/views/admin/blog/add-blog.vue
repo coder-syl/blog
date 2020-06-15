@@ -150,7 +150,7 @@ export default {
     } else {
       this.idAdd = true;
     }
-    listClassifications(this.queryParams).then(response => {
+    listClassifications({deletef:0}).then(response => {
       this.listClifys = response.data;
     });
   },

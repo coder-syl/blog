@@ -44,7 +44,6 @@ vue
   </div>
 </template>
 
-
 <style scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 209px;

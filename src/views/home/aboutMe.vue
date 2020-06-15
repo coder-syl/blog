@@ -15,13 +15,13 @@
       <div class="section section2">
         <div class="secction2-content">
           <h2>我的开源</h2>
-          <aboutMeCard></aboutMeCard>
+          <aboutAboutMeCard></aboutAboutMeCard>
         </div>
       </div>
       <div class="section section3">
         <div class="secction3-content">
           <h2>使用技术</h2>
-          <aboutMeTech></aboutMeTech>
+          <aboutAboutMeTech></aboutAboutMeTech>
         </div>
       </div>
       <div class="section section4">

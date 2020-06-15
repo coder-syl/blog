@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="about-me-card">
-    <div v-for="(item,index) in cardDatas" :key="index">
+    <div v-for="(item, index) in cardDatas" :key="index">
       <card v-bind="item"></card>
     </div>
   </div>
@@ -9,12 +9,22 @@
 
 <script>
 import card from "./card";
+import {
+  listProjects,
+  updateProjectById,
+  addProject,
+  deleteProjectById
+} from "@/api/project/project";
 export default {
   name: "aboutMeCard",
   components: {
     card
   },
   created() {
+    listProjects({ deletef: 0 }, true).then(response => {
+      this.cardDatas = response.data;
+    });
+
     // this.axios.get("/getAllProject").then(response => {
     //   if (response.data.status.code === "202") {
     //     console.log(response.data.result);
@@ -37,7 +47,7 @@ export default {
   methods: {}
 };
 </script>
-<style  scoped>
+<style scoped>
 .about-me-card {
   width: 70%;
   margin: auto;

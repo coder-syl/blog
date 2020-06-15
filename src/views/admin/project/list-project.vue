@@ -26,7 +26,7 @@
             @click="dialogFormVisible = true"
           >添加项目</el-button>
         </el-col>
-        <el-col :span="1.5">
+        <!-- <el-col :span="1.5">
           <el-button
             type="success"
             icon="el-icon-edit"
@@ -34,7 +34,7 @@
             :disabled="single"
             @click="handleUpdate"
           >修改</el-button>
-        </el-col>
+        </el-col>-->
         <!-- <el-col :span="1.5">
           <el-button
             type="danger"
@@ -72,15 +72,13 @@
       <el-table-column prop="deletef" label="是否删除" show-overflow-tooltip></el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <!-- <el-button
+          <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['biz:server:edit']"
-          >修改</el-button>-->
+            @click="updateProject(scope.row)"
+          >修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleDetail(scope.row)">详细</el-button>
-
           <el-button
             size="mini"
             type="text"
@@ -117,41 +115,63 @@
       ></el-pagination>
     </div>
 
-    <el-dialog title="项目管理" :visible.sync="dialogFormVisible" width="400px">
-      <el-form :model="form">
+    <el-dialog
+      title="项目管理"
+      :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
+      @close="restDialogForm"
+      width="450px"
+    >
+      <el-form :model="form" :disabled="isDetail">
         <el-form-item label="项目名" label-width="70px">
-          <el-input v-model="form.name" autocomplete="off" style="width:220px"></el-input>
+          <el-input v-model="form.name" autocomplete="off" style="width:300px"></el-input>
         </el-form-item>
         <el-form-item label="url" label-width="70px">
-          <el-input v-model="form.url" autocomplete="off" style="width:220px"></el-input>
+          <el-input v-model="form.url" autocomplete="off" style="width:300px"></el-input>
         </el-form-item>
         <el-form-item label="简介" label-width="70px">
-          <el-input v-model="form.description" autocomplete="off" style="width:220px"></el-input>
+          <el-input v-model="form.description" autocomplete="off" style="width:300px"></el-input>
         </el-form-item>
-        <el-form-item label="图片地址" label-width="70px">
-          <el-input v-model="form.img_url" autocomplete="off" style="width:220px"></el-input>
-        </el-form-item>
+
         <el-form-item label="语言" label-width="70px">
-          <el-input v-model="form.language" autocomplete="off" style="width:220px"></el-input>
+          <el-input v-model="form.language" autocomplete="off" style="width:300px"></el-input>
         </el-form-item>
 
         <el-form-item label="创建时间" label-width="70px">
           <el-date-picker
+            style="width:300px"
             v-model="form.createdAt"
             type="date"
             placeholder="选择日期"
-            style="width:220px"
             disabled
             value-format="yyyy-MM-dd"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="是否删除" label-width="70px">
-          <el-select v-model="form.deletef" placeholder="是否删除？" style="width:220px">
+          <el-select v-model="form.deletef" placeholder="是否删除？" style="width:300px">
             <el-option label="是" value="1"></el-option>
             <el-option label="否" value="0"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="是否删除" label-width="70px">
+          <!-- <div label="图片地址" label-width="70px"> -->
+          <el-upload
+            action="#"
+            :limit="1"
+            ref="upload"
+            :multiple="false"
+            :auto-upload="false"
+            :file-list="imgList"
+            :on-change="hasChangeImg"
+            list-type="picture-card"
+          >
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <div slot="tip" class="el-upload__tip">上传图片大小不超过500kb</div>
+          </el-upload>
+          <!-- </div> -->
+        </el-form-item>
       </el-form>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" v-show="isAdd" @click="handleAdd">确 定</el-button>
@@ -165,7 +185,8 @@ import {
   listProjects,
   updateProjectById,
   addProject,
-  deleteProjectById
+  deleteProjectById,
+  uploadImg
 } from "@/api/project/project";
 import projectForm from "@components/admin/project-form";
 export default {
@@ -196,7 +217,9 @@ export default {
         description: ""
       },
       isAdd: true,
-
+      imgList: [],
+      ChangeImg: false,
+      isDetail: false,
       total: 100,
       // 选中的数组
       ids: [],
@@ -205,36 +228,32 @@ export default {
       loading: false,
       formVisible: false,
       pageConf: {
-        //设置一些初始值(会被覆盖)
-        pageCode: 1, //当前页
-        pageSize: 5, //每页显示的记录数
-        totalPage: 12, //总记录数
-        pageOption: [10, 20] //分页选项
+        // 设置一些初始值(会被覆盖)
+        pageCode: 1, // 当前页
+        pageSize: 5, // 每页显示的记录数
+        totalPage: 12, // 总记录数
+        pageOption: [10, 20] // 分页选项
       }
     };
   },
   created() {
     this.loading = true;
-
-    // listProjects(this.queryParams, true).then(response => {
-    //   this.tableData = response.result;
-    // });
     this.getAllProjects();
   },
   methods: {
     getAllProjects() {
-      listProjects(this.queryParams, true).then(response => {
+      listProjects().then(response => {
         this.tableData = response.data;
       });
     },
-    tableRowClassName({row, rowIndex}) {
-        if (row.deletef === 1) {
-          return 'warning-row';
-        } else if (rowIndex === 3) {
-          return '';
-        }
-        return '';
-      },
+    tableRowClassName({ row, rowIndex }) {
+      if (row.deletef === 1) {
+        return "warning-row";
+      } else if (rowIndex === 3) {
+        return "";
+      }
+      return "";
+    },
     //pageSize改变时触发的函数
     handleSizeChange(val) {},
     //当前页改变时触发的函数
@@ -253,23 +272,81 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
       this.ids = this.multipleSelection.map(item => item.id);
-      console.log("ids", this.ids);
       this.multiple = !this.multipleSelection.length;
       this.single = this.multipleSelection.length != 1;
     },
-    handleUpdate() {
-      updateProjectById(this.form).then(response => {
-        this.getAllProjects();
-        if (response.code === 200) {
-          this.getAllProjects();
-          this.$message({
-            message: "更新成功",
-            type: "success"
-          });
-        } else {
-          this.$message.error("更新失败");
-        }
+    restDialogForm() {
+      this.form = {};
+      this.imgList = [];
+      this.isAdd = true;
+      this.ChangeImg = false;
+      this.isDetail = false;
+    },
+    hasChangeImg() {
+      this.$message({
+        message: "更换成功",
+        type: "success"
       });
+      this.ChangeImg = true;
+    },
+    updateProject(rows) {
+      this.form = rows;
+      this.dialogFormVisible = true;
+      this.isAdd = false;
+      this.form.img_url
+        ? this.imgList.push({
+            name: this.form.name,
+            url: this.form.img_url
+          })
+        : (this.imgList = []);
+      // this.imgList[0]=this.tableData.img_url
+    },
+    handleUpdate() {
+      const fileArray = this.$refs.upload.uploadFiles;
+      const fd = new FormData();
+      fd.append("avatar", fileArray[0].raw);
+      new Promise((resolve, reject) => {});
+      if (this.ChangeImg === true) {
+        this.$message({
+          message: "正在上传图片",
+          type: "success"
+        });
+        uploadImg(fd)
+          .then(response => {
+            this.form.img_url =
+              "http://localhost:3000/" +
+              String(response.data.avatar.path).replace(/\\/g, "/");
+            console.log(this.form.img_url, " this.form.img_url ");
+          })
+          .then(() => {
+            updateProjectById(this.form).then(response => {
+              this.getAllProjects();
+              if (response.code === 200) {
+                this.getAllProjects();
+                this.$message({
+                  message: "更新成功",
+                  type: "success"
+                });
+              } else {
+                this.$message.error("更新失败");
+              }
+            });
+          });
+      } else {
+        console.log(this.form.img_url, " this.form.img_url ");
+        updateProjectById(this.form).then(response => {
+          this.getAllProjects();
+          if (response.code === 200) {
+            this.getAllProjects();
+            this.$message({
+              message: "更新成功",
+              type: "success"
+            });
+          } else {
+            this.$message.error("更新失败");
+          }
+        });
+      }
     },
     handleDelete(row) {
       deleteProjectById((row.deletef = 1), row.id).then(response => {
@@ -286,18 +363,42 @@ export default {
       });
     },
     handleQuery() {},
+    handleDetail(row) {
+      this.form = row;
+      this.dialogFormVisible = true;
+      this.isDetail = true;
+      this.form.img_url
+        ? this.imgList.push({
+            name: this.form.name,
+            url: this.form.img_url
+          })
+        : (this.imgList = []);
+    },
+
     handleAdd() {
-      addProject(this.form, true).then(response => {
-        console.log(this.form);
-        if (response.code === 200) {
-          this.getAllProjects();
-          this.$message({
-            message: "添加成功",
-            type: "success"
-          });
-        } else {
-          this.$message.error("添加失败");
-        }
+      if (this.ChangeImg === false) {
+        this.$message.error("图片是必须的");
+        return;
+      }
+      const fileArray = this.$refs.upload.uploadFiles;
+      const fd = new FormData();
+      fd.append("avatar", fileArray[0].raw);
+      uploadImg(fd).then(response => {
+        this.form.img_url =
+          "http://localhost:3000/" +
+          String(response.data.avatar.path).replace(/\\/g, "/");
+
+        addProject(this.form, true).then(response => {
+          if (response.code === 200) {
+            this.getAllProjects();
+            this.$message({
+              message: "添加成功",
+              type: "success"
+            });
+          } else {
+            this.$message.error("添加失败");
+          }
+        });
       });
     },
     resetQuery(formName) {
@@ -306,14 +407,14 @@ export default {
   }
 };
 </script>
-<style  >
+<style>
 .el-pagination {
   right: 0;
   position: absolute;
   margin-top: 10px;
   margin-right: 10px;
 }
-.el-table .warning-row{
-    background: #fdf5e6 ;
-  }
+.el-table .warning-row {
+  background: #fdf5e6;
+}
 </style>

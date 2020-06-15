@@ -3,19 +3,19 @@
   <div class="card">
     <div class="card-content">
       <div class="card-content-img">
-        <img :src="imgUrl" alt />
+        <img :src="img_url" alt="图片" />
       </div>
       <div class="card-content-title">
-        <h2>{{name}}</h2>
+        <h2>{{ name }}</h2>
       </div>
-      <div class="card-content-detail">{{description}}</div>
+      <div class="card-content-detail">{{ description }}</div>
       <div class="card-content-github">
         <p class="check-detail">
           <a href="#">查看详情</a>
         </p>
         <p>
-          <span>{{language.split(',')[0]}}</span>
-          <span class="span-bf">{{language.split(',')[1]}}</span>
+          <span>{{ language.split(",")[0] }}</span>
+          <span class="span-bf">{{ language.split(",")[1] }}</span>
         </p>
       </div>
     </div>
@@ -26,7 +26,7 @@
 export default {
   name: "card",
   props: {
-    imgUrl: {
+    img_url: {
       type: String,
       required: true
     },
@@ -47,7 +47,7 @@ export default {
   methods: {}
 };
 </script>
-<style  scoped>
+<style scoped>
 .card {
   transition: all 0.3s;
 }
@@ -59,6 +59,17 @@ export default {
   transition: all 0.3s;
   margin-top: 20px;
 }
+@media screen and (min-height: 800px) {
+  .card-content {
+    height: 390px;
+  }
+}
+@media screen and (max-height: 800px) {
+  .card-content {
+    height: 300px !important;
+  }
+}
+
 .card-content:hover {
   margin-top: 0;
   height: 430px;
