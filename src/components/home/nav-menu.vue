@@ -30,7 +30,7 @@
           </el-submenu>
         </el-submenu>-->
         <el-menu-item index="aboutMe">关于我</el-menu-item>
-        <el-menu-item index="friends">友情链接</el-menu-item>
+        <!-- <el-menu-item index="friends">友情链接</el-menu-item> -->
         <el-menu-item index="/admin/index">后台</el-menu-item>
       </el-menu>
     </div>

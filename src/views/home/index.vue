@@ -17,16 +17,26 @@
         </div>
 
         <div v-for="item in blogList" :key="item.id" class="blog">
-          <div class="blogHeader">{{ item.created_time| formatDate}}-{{item.author}}</div>
+          <div class="blogHeader">
+            <span>{{item.author}}</span>
+            <span>{{ item.created_time| formatDate}}</span>
+            <span>{{ item.classification_name}}</span>
+          </div>
           <div class="blogContent" @click="getBlogDetail(item.id)">
-            {{item.title}}
+            <div class="blog--content-title">{{item.title}}
+            </div>
+            <div class="blog--content-img">
+              <img src="https://poile-img.nos-eastchina1.126.net/1592234164693.jpg" alt />
+            </div>
             <!-- <p
             style="  width: 90%;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"
             >{{getContent(item.content)}}</p>-->
           </div>
           <div class="blogFooter">
-            <el-button size="medium" icon="el-icon-view">{{item.visit_count}}</el-button>
-            <el-button size="medium" icon="el-icon-s-comment">{{item.reply_count}}</el-button>
+            <div>
+              <el-button size="mini" icon="el-icon-view" round>{{item.visit_count}}</el-button>
+              <el-button size="mini" icon="el-icon-s-comment" round>{{item.reply_count}}</el-button>
+            </div>
           </div>
         </div>
       </div>
@@ -134,7 +144,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss' scoped>
 .index {
   margin-top: 20px;
   display: flex;
@@ -162,16 +172,34 @@ export default {
   color: #b2bac2;
   padding: 10px;
 }
+.blogHeader {
+  font-size: 14px;
+  font-weight: 700;
+  span:not(:last-child)::after {
+    content: "\B7";
+    margin: 0 5px;
+    color: #b2bac2;
+  }
+}
 .blogContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   cursor: pointer;
-  font-size: 20px;
-  font-size: 1.4rem;
+  font-size: 19px;
+  height:100px;
+  /* font-size: 1.4rem; */
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 90px;
   color: #2e3135;
-  white-space: nowrap;
+  // white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  .blog--content-img>img{
+    padding-top:10%;
+    width: 150px;
+    height: 90px;
+  }
 }
 .blogFooter > button {
   cursor: default;

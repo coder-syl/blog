@@ -4,10 +4,11 @@
       <div class="tag-list">
         <div class="paraent-list">
           <div class="paraent-tag">
-            <el-button @click="getBlog({id:0})" autofocus>全部</el-button>
+            <el-button @click="getBlog({id:0})" type="primary">全部</el-button>
             <el-button
               v-for="item in classificationsList"
               :key="item.id"
+              :ref="'father-'+item.name"
               @click="getChildren(item)"
             >{{item.name}}</el-button>
           </div>
@@ -20,6 +21,7 @@
               round
               v-for="item in childClassificationsList"
               :key="item.id"
+              :ref="'child-'+item.name"
               @click="getBlog(item)"
               :autofocus="item.name==='全部'?true:false"
             >{{item.name}}</el-button>
@@ -70,8 +72,19 @@ export default {
       // console.log(key, keyPath);
     },
     getBlog(item) {
-      if(item.id===0){
-        this.childClassificationsList=[]
+      console.log(item);
+      console.log(this.$refs, "item==");
+      for (let ref in this.$refs) {
+        console.log(ref);
+        if (ref.startsWith('child-') &&ref.replace("child-",'')===item.name) {
+          console.log(this.$refs[ref][0],'this.$refs[ref][0]')
+          this.$refs[ref][0].type = "primary";
+        } else {
+          this.$refs[ref][0].type = "default";
+        }
+      }
+      if (item.id === 0) {
+        this.childClassificationsList = [];
       }
       this.$emit("input", item.id);
     },
@@ -79,7 +92,27 @@ export default {
     //     this.isFixed=val
     // }
     getChildren(item) {
+      // let index=this.$refs.indexOf(item.name)
+      // console.log(index)
+      console.log(this.$refs);
+      for (let ref in this.$refs) {
+        console.log(this.$refs[ref][0],'this.$refs[ref][0]');
+                console.log(ref,'ref===============');
 
+        console.log(ref.startsWith('father'),ref.replace("father-",'')===item.name)
+        if (ref.startsWith('father-') &&item.name.replace("father-",'') === ref) {
+          cons.l
+          this.$refs[ref][0].type = "primary";
+        } else {
+          this.$refs[ref][0].type = "default";
+        }
+      }
+
+      // this.$nextTick(() => {
+      //   this.$refs.python[0];
+      // });
+      // this.$refs[item.name].style.height ="1000px"
+      // console.log(();
       this.$emit("input", item.id);
       let itemTemp = Object.assign({}, item);
       itemTemp.name = "全部";
@@ -104,12 +137,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .el-menu.el-menu--horizontal {
   border-bottom: none;
 }
 .el-menu-item {
   font-size: 16px;
+}
+.el-button {
+  background-color: #409eff;
+  color: #fff;
 }
 .tag-menu {
   /* position: fixed;
