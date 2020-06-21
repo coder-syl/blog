@@ -10,19 +10,30 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 import globalComponents from "./components/globalComponents";
 import { uploadError } from "./utils/uploadError";
+// import { injectJsError } from "./utils/monitor/jsError";
+// injectJsError();
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(globalComponents);
 Vue.config.productionTip = false;
 // import VueQuillEditor from 'vue-quill-editor'
 // vue提供的handleError句柄。一旦Vue发生异常都会调用这个方法。
-Vue.config.errorHandler = function(err, vm, info) {
-    // vm.$options.name, info
-    uploadError({ error: err });
+
+Vue.config.errorHandler = function(err, vm, info, a) {
+    console.log(err)
+        // Don't ask me why I use Vue.nextTick, it just a hack.
+        // detail see https://forum.vuejs.org/t/dispatch-in-vue-config-errorhandler-has-some-problem/23500
+    Vue.nextTick(() => {
+        // store.dispatch("errorLog/addErrorLog", {
+        //     err,
+        //     vm,
+        //     info,
+        //     url: window.location.href
+        // });
+        console.error('123', err, info);
+    });
 };
-window.onerror = (...args) => {
-    console.log("onerror:", args);
-};
+
 // // require styles
 // import 'quill/dist/quill.core.css'
 // import 'quill/dist/quill.snow.css'

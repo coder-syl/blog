@@ -4,6 +4,7 @@
       <tagMenu v-model="curClaId"></tagMenu>
     </div>
     <div class="index">
+      <button @click="makeError"> asdfa</button>
       <div class="blogList" v-loading="hasLoding">
         <div class="blog" v-show="!(blogList.length>0)">
           <div class="blogHeader"></div>
@@ -110,6 +111,12 @@ export default {
     }
   },
   methods: {
+    makeError(){
+      console.log(1)
+        error
+
+      new Error('I was constructed via the "new" keyword!');
+    },
     load() {
       this.count += 2;
     },
@@ -137,19 +144,9 @@ export default {
       }
     }
   },
-  created(){
-   window.addEventListener('unhandledrejection', event => {
-     console.log(event)
-  event.promise.catch((e) => {
-    utils.errorCatch(e, 3)
-  })
-  window.onerror = (...args) => {
-    console.log("onerror:", args);
-};
-})
-  },
+
   mounted() {
-    
+  
     listBlog().then(res => {
       this.blogList = res.data;
       this.hasLoding = false;
@@ -158,8 +155,7 @@ export default {
       this.hotBlogList = res.data;
       this.hasLoding = false;
     });
-    abc();
-   
+         
   }
 };
 </script>

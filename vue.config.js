@@ -42,10 +42,10 @@ module.exports = {
     // 设置静态资源，防止找不到
     publicPath: "./",
     //
-    productionSourceMap: false, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
+    productionSourceMap: true, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
     // configureWebpack支持函数写法
     configureWebpack: {
-        devtool: isProduction ? "cheap-module-source-map" : false, //选择合适的打包方式  'cheap-module-source-map'适合开发环境
+        devtool: isProduction ? "cheap-module-source-map" : "cheap-source-map", //选择合适的打包方式  'cheap-module-source-map'适合开发环境
         externals: isProduction || devNeedCdn ? cdn.externals : {},
         resolve: {
             alias: {
