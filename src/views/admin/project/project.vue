@@ -183,7 +183,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
       this.ids = this.multipleSelection.map(item => item.id);
-      console.log("ids", this.ids);
       this.multiple = !this.multipleSelection.length;
       this.single = this.multipleSelection.length != 1;
     },

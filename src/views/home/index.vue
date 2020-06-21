@@ -23,9 +23,12 @@
             <span>{{ item.classification_name}}</span>
           </div>
           <div class="blogContent" @click="getBlogDetail(item.id)">
-            <div class="blog--content-title">{{item.title}}
+            <div>
+              <p class="blog-content-title">{{item.title}}</p>
+
+              <p class="blog-content-descript">{{item.content}}</p>
             </div>
-            <div class="blog--content-img">
+            <div class="blog-content-img">
               <img src="https://poile-img.nos-eastchina1.126.net/1592234164693.jpg" alt />
             </div>
             <!-- <p
@@ -43,25 +46,22 @@
       <div class="cardList">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>热门标签</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+            <span>热门文章</span>
+            <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
           </div>
-          <div v-for="o in 4" :key="o" class="text item cardContent">
-            <div>
-              <el-tag>{{'列容 ' + o }}</el-tag>
-            </div>
-            <div>
-              <el-tag>{{'列容 ' + o }}</el-tag>
-            </div>
+          <div v-for="(item,index) in hotBlogList" :key="item.id" class="text item cardContent">
+            <!-- <div class="el-step__icon is-text"><div class="el-step__icon-inner"> -->
+              <!-- </div></div> -->
+            <div class="card-list-content-title">{{index}} —{{ item.title }}</div>
           </div>
         </el-card>
-        <el-card class="box-card">
+        <!-- <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>卡片名称</span>
             <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
           </div>
           <div v-for="o in 4" :key="o" class="text item">{{'列表内容 ' + o }}</div>
-        </el-card>
+        </el-card> -->
       </div>
 
       <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
@@ -72,18 +72,24 @@
 </template>
 
 <script>
-import { listBlog, getBlogByClassification } from "@/api/blog/blog";
+import {
+  listBlog,
+  getBlogByClassification,
+  getBlogOrderByVisitCount
+} from "@/api/blog/blog";
 export default {
   // props: {
   //   curClaId: {
   //     default: 0
   //   }
   // },
+  name:"home-index",
   data() {
     return {
       hasLoding: true,
       blogList: [],
-      curClaId: ""
+      curClaId: "",
+      hotBlogList: []
     };
   },
   filters: {
@@ -112,7 +118,6 @@ export default {
     },
     getContent(str) {
       str = str.replace(/\n/g, "");
-      // console.log( str)
       // return str.replace(/<[^>]*>|/g, "").replace(/\\n/g, "");
       return str.replace(/#/g, "").replace(/\\n/g, "");
     }
@@ -122,24 +127,39 @@ export default {
       if (newV === 0) {
         listBlog().then(res => {
           this.blogList = res.data;
-          console.log(res);
           this.hasLoding = false;
         });
       } else {
         getBlogByClassification(newV).then(res => {
           this.blogList = res.data;
-          console.log(res);
           this.hasLoding = false;
         });
       }
     }
   },
+  created(){
+   window.addEventListener('unhandledrejection', event => {
+     console.log(event)
+  event.promise.catch((e) => {
+    utils.errorCatch(e, 3)
+  })
+  window.onerror = (...args) => {
+    console.log("onerror:", args);
+};
+})
+  },
   mounted() {
+    
     listBlog().then(res => {
       this.blogList = res.data;
-      console.log(res);
       this.hasLoding = false;
     });
+    getBlogOrderByVisitCount().then(res => {
+      this.hotBlogList = res.data;
+      this.hasLoding = false;
+    });
+    abc();
+   
   }
 };
 </script>
@@ -187,16 +207,30 @@ export default {
   justify-content: space-between;
   cursor: pointer;
   font-size: 19px;
-  height:100px;
+  height: 100px;
   /* font-size: 1.4rem; */
   font-weight: 600;
-  line-height: 90px;
+  // line-height: 90px;
   color: #2e3135;
   // white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  .blog--content-img>img{
-    padding-top:10%;
+  .blog-content-title {
+    color: #2f2f2f;
+  }
+  .blog-content-descript {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+    font-size: 14px;
+    line-height: 24px;
+    color: #999;
+    margin-top: 5px;
+  }
+  .blog-content-img > img {
+    padding-top: 10%;
     width: 150px;
     height: 90px;
   }
@@ -208,11 +242,12 @@ export default {
 }
 .cardList {
   width: 25%;
+  .card-list-content-title{
+    font-size: 14px;
+  }
 }
 .cardContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 5px;
+  line-height: 15px;
+  margin-bottom: 15px;
 }
 </style>

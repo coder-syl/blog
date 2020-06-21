@@ -88,7 +88,6 @@ export default {
     },
     mouseWheelHandle(event) {
       // 添加冒泡阻止
-      console.log("鼠标滑动");
       let evt = event || window.event;
       if (evt.stopPropagation) {
         evt.stopPropagation();

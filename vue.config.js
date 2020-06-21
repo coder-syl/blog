@@ -1,15 +1,15 @@
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin');
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-var webpack = require("webpack")
+const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+var webpack = require("webpack");
 
 function resolve(dir) {
-    return path.resolve(__dirname, dir)
+    return path.resolve(__dirname, dir);
 }
 // 是否为生产环境
-const isProduction = process.env.NODE_ENV !== 'development'
-    // 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
-const devNeedCdn = false
+const isProduction = process.env.NODE_ENV !== "development";
+// 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
+const devNeedCdn = false;
 
 // html-webpack-plugin配置cdn
 const cdn = {
@@ -19,44 +19,46 @@ const cdn = {
     // 就不会去本地组件包中查找这些在 externals 中注册的组件了（自然也不会将他们打包到一个 app.js 中去），
     // 而是会去 window 域下直接调用 Vue, VueRouter, $ 等对象。
     externals: {
-        'vue': 'Vue',
-        'vue-router': 'VueRouter',
-        'vuex': 'Vuex',
-        'axios': 'axios',
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios",
         "element-ui": "ELEMENT"
     },
     // cdn的css链接
-    css: [
-        'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
-    ],
+    css: ["https://unpkg.com/element-ui/lib/theme-chalk/index.css"],
     js: [
-        'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js',
-        'https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js',
-        'https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js',
-        'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js',
-        'https://unpkg.com/element-ui/lib/index.js'
+        "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js",
+        "https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js",
+        "https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js",
+        "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js",
+        "https://unpkg.com/element-ui/lib/index.js"
     ]
-}
+};
 
 module.exports = {
     // 是都开启eslint
     // lintOnSave: false,
     // 设置静态资源，防止找不到
-    publicPath: './',
-    // 
+    publicPath: "./",
+    //
     productionSourceMap: false, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
     // configureWebpack支持函数写法
     configureWebpack: {
-
-
-        devtool: isProduction ? 'cheap-module-source-map' : false, //选择合适的打包方式  'cheap-module-source-map'适合开发环境
-        externals: (isProduction || devNeedCdn) ? cdn.externals : {},
+        devtool: isProduction ? "cheap-module-source-map" : false, //选择合适的打包方式  'cheap-module-source-map'适合开发环境
+        externals: isProduction || devNeedCdn ? cdn.externals : {},
         resolve: {
             alias: {
-                '@': resolve('src'),
-                '@views': resolve('src/views'),
-                '@admin': resolve('src/views/admin'),
-                '@components': resolve('src/components')
+                "@": resolve("src"),
+                "@views": resolve("src/views"),
+                "@admin": resolve("src/views/admin"),
+                "@components": resolve("src/components")
+            }
+        },
+        devServer: {
+            overlay: {
+                warnings: true,
+                errors: true
             }
         },
         // devServer: {
@@ -76,7 +78,7 @@ module.exports = {
         // },
         plugins: [
             new CompressionWebpackPlugin({
-                algorithm: 'gzip',
+                algorithm: "gzip",
                 test: /\.(js|css)$/, // 匹配文件名
                 threshold: 10000, // 对超过10k的数据压缩
                 deleteOriginalAssets: false, // 不删除源文件
@@ -84,11 +86,10 @@ module.exports = {
             }),
             //只打包改变的文件
             new webpack.HashedModuleIdsPlugin({
-                hashFunction: 'sha256',
-                hashDigest: 'hex',
+                hashFunction: "sha256",
+                hashDigest: "hex",
                 hashDigestLength: 20
-            }),
-
+            })
         ],
         optimization: {
             // optimization.minimize 属性就像是 optimization.minimizer 的开关，
@@ -97,10 +98,9 @@ module.exports = {
             minimizer: [
                 // 打包移除console
                 new TerserPlugin({
-
                     terserOptions: {
                         output: {
-                            comments: false, // 去掉注释
+                            comments: false // 去掉注释
                         },
                         parallel: true, // 启用并行压缩
                         cache: true, // 启用缓存
@@ -110,19 +110,19 @@ module.exports = {
                         compress: {
                             drop_console: true,
                             drop_debugger: false,
-                            pure_funcs: ['console.log'] // 移除console
+                            pure_funcs: ["console.log"] // 移除console
                         }
-                    },
-                }),
+                    }
+                })
             ],
             splitChunks: {
-                chunks: 'async',
+                chunks: "async",
                 minSize: 30000, //单位是byte，超过这个大小的文件才会被打包
                 maxSize: 0,
                 minChunks: 1,
                 maxAsyncRequests: 5,
                 maxInitialRequests: 3,
-                automaticNameDelimiter: '~',
+                automaticNameDelimiter: "~",
                 name: true,
                 cacheGroups: {
                     vendors: {
@@ -136,13 +136,13 @@ module.exports = {
                     }
                 }
             }
-        },
+        }
     },
-    chainWebpack: (config) => {
-        config.plugin('html').tap(options => {
+    chainWebpack: config => {
+        config.plugin("html").tap(options => {
             // 生产环境或本地需要cdn时，才注入cdn
-            if (isProduction || devNeedCdn) options[0].cdn = cdn
-            return options
+            if (isProduction || devNeedCdn) options[0].cdn = cdn;
+            return options;
         });
 
         // if (isProduction) {
@@ -165,7 +165,5 @@ module.exports = {
         // 为所有的 CSS 及其预处理文件开启 CSS Modules。
         // 这个选项不会影响 `*.vue` 文件。
         requireModuleExtension: true
-    },
-
-
-}
+    }
+};

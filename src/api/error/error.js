@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 // 查询文章列表
-export function listBlog(hasLoading = false) {
+export function listError(hasLoading = false) {
     return request({
-        url: '/allBlogs',
+        url: '/allErrors',
         method: 'get',
         // params: query,
         hasLoading: hasLoading
     })
 }
-export function getBlogOrderByVisitCount(hasLoading = false) {
+export function getErrorOrderByVisitCount(hasLoading = false) {
     return request({
-        url: '/getBlogOrderByVisitCount',
+        url: '/getErrorOrderByVisitCount',
         method: 'get',
         // params: query,
         hasLoading: hasLoading
@@ -18,35 +18,35 @@ export function getBlogOrderByVisitCount(hasLoading = false) {
 }
 
 // 根据id获取文章
-export function getBlogById(id, hasLoading = true) {
+export function getErrorById(id, hasLoading = true) {
     return request({
-        url: '/getBlogById/' + id,
+        url: '/getErrorById/' + id,
         method: 'get',
         // params:query,
         hasLoading: hasLoading
     })
 }
 // 根据id获取文章
-export function getBlogByClassification(id, hasLoading = true) {
+export function getErrorByClassification(id, hasLoading = true) {
     return request({
-        url: '/getBlogByClassification/' + id,
+        url: '/getErrorByClassification/' + id,
         method: 'get',
         // params:query,
         hasLoading: hasLoading
     })
 }
-export function addBlog(article, hasLoading = false) {
+export function addError(article, hasLoading = false) {
     return request({
-        url: '/addBlog/',
+        url: '/addError/',
         method: 'post',
         data: article,
         hasLoading: hasLoading
     })
 
 }
-export function updateBlogById(article, hasLoading = false) {
+export function updateErrorById(article, hasLoading = false) {
     return request({
-        url: '/updateBlogById/',
+        url: '/updateErrorById/',
         method: 'post',
         data: article,
         hasLoading: hasLoading
@@ -62,9 +62,9 @@ export function delProject(id) {
     })
 }
 // 删除信息
-export function deleteBlogById(deletef, id, hasLoading = false) {
+export function deleteErrorById(deletef, id, hasLoading = false) {
     return request({
-        url: "/deleteBlogById/",
+        url: "/deleteErrorById/",
         method: 'post',
         data: { deletef, id },
         hasLoading: hasLoading

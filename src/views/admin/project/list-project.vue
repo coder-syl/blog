@@ -188,12 +188,9 @@ import {
   deleteProjectById,
   uploadImg
 } from "@/api/project/project";
-import projectForm from "@components/admin/project-form";
 export default {
   name: "project",
-  components: {
-    projectForm
-  },
+ 
   data() {
     return {
       // 控制dialog是否显示
@@ -316,7 +313,6 @@ export default {
             this.form.img_url =
               "http://localhost:3000/" +
               String(response.data.avatar.path).replace(/\\/g, "/");
-            console.log(this.form.img_url, " this.form.img_url ");
           })
           .then(() => {
             updateProjectById(this.form).then(response => {
@@ -333,7 +329,6 @@ export default {
             });
           });
       } else {
-        console.log(this.form.img_url, " this.form.img_url ");
         updateProjectById(this.form).then(response => {
           this.getAllProjects();
           if (response.code === 200) {

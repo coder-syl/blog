@@ -1,9 +1,9 @@
-const blogsService = require("../service/blogsService");
+const errorsService = require("../service/errorsService");
 
-class blogsController {
-  static async getAllBlog(ctx) {
+class errorsController {
+  static async getAllError(ctx) {
     try {
-      let data = await blogsService.getAllBlog(); // 获取查询的数据
+      let data = await errorsService.getAllError(); // 获取查询的数据
       ctx.response.status = 200;
       ctx.body = {
         code: 200,
@@ -21,10 +21,10 @@ class blogsController {
       };
     }
   }
-  static async getBlogByClassification(ctx) {
+  static async getErrorByClassification(ctx) {
     const id = ctx.params.id; // 获取前端传来的参数
     try {
-      let data = await blogsService.getBlogByClassification(id); // 获取查询的数据
+      let data = await errorsService.getErrorByClassification(id); // 获取查询的数据
       ctx.response.status = 200;
       ctx.body = {
         code: 200,
@@ -42,10 +42,10 @@ class blogsController {
       };
     }
   }
-  static async getBlogById(ctx) {
+  static async getErrorById(ctx) {
     const id = ctx.params.id; // 获取前端传来的参数
     try {
-      let data = await blogsService.getBlogById(id); // 获取查询的数据
+      let data = await errorsService.getErrorById(id); // 获取查询的数据
       ctx.response.status = 200;
       ctx.body = {
         code: 200,
@@ -63,9 +63,9 @@ class blogsController {
       };
     }
   }
-  static async getBlogOrderByVisitCount(ctx) {
+  static async getErrorOrderByVisitCount(ctx) {
     try {
-      let data = await blogsService.getBlogOrderByVisitCount(); // 获取查询的数据
+      let data = await errorsService.getErrorOrderByVisitCount(); // 获取查询的数据
       ctx.response.status = 200;
       ctx.body = {
         code: 200,
@@ -83,13 +83,13 @@ class blogsController {
       };
     }
   }
-  static async addBlog(ctx) {
+  static async addError(ctx) {
     let req = ctx.request.body;
     console.log("req", req);
 
     if (req.title && req.content) {
       try {
-        let data = await blogsService.addBlog(req);
+        let data = await errorsService.addError(req);
         ctx.response.status = 200;
         ctx.body = {
           code: 200,
@@ -113,13 +113,13 @@ class blogsController {
       };
     }
   }
-  static async updateBlogById(ctx) {
+  static async updateErrorById(ctx) {
     let req = ctx.request.body;
     console.log("req", req);
 
     if (req.title && req.content) {
       try {
-        let data = await blogsService.updateBlogById(req, req.id);
+        let data = await errorsService.updateErrorById(req, req.id);
         ctx.response.status = 200;
         ctx.body = {
           code: 200,
@@ -143,12 +143,12 @@ class blogsController {
       };
     }
   }
-  static async deleteBlogById(ctx) {
+  static async deleteErrorById(ctx) {
     let req = ctx.request.body;
     console.log(req.deletef, req.id);
     if (req.deletef && req.id) {
       try {
-        let data = await blogsService.deleteBlogById(req.deletef, req.id);
+        let data = await errorsService.deleteErrorById(req.deletef, req.id);
         ctx.response.status = 200;
         ctx.body = {
           code: 200,
@@ -174,4 +174,4 @@ class blogsController {
   }
 }
 
-module.exports = blogsController;
+module.exports = errorsController;

@@ -24,6 +24,7 @@ import { getBlogById } from "@/api/blog/blog";
 // import marked from "marked";
 
 export default {
+  name:'home-detail',
   data() {
     return {
       blogDetai: {}
@@ -36,6 +37,8 @@ export default {
       this.blogDetai = res.data;
       // this.blogDetai.content = marked(this.blogDetai.content);
     });
+        abc();
+
   }
 };
 </script>

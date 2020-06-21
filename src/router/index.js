@@ -40,11 +40,7 @@ export default new Router({
             name: 'aboutMe',
             component: require('@views/home/aboutMe').default
         },
-        {
-            path: '/test',
-            name: 'test',
-            component: require('@admin/test').default
-        },
+       
 
         {
             path: "/admin/login",
@@ -125,6 +121,21 @@ export default new Router({
                         //     component: require('@admin/blog/add-blog').default,
                         //     // meta: { title: '增加文章', icon: '' }
                         // },
+                    ]
+
+                },
+                {
+                    path: 'error',
+                    name: "分类管理",
+                    component: require("@admin/error/index").default,
+                    meta: { title: "error", icon: "" },
+                    redirect: "error/list-error",
+                    children: [{
+                            path: 'list-error',
+                            name: "分类列表",
+                            component: require('@admin/error/list-error').default,
+                            // meta: { title: 's', icon: '' },
+                        },
                     ]
 
                 }

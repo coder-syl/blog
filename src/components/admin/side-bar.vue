@@ -39,6 +39,12 @@ vue
             分类
           </el-menu-item>
         </router-link>
+         <router-link to="/admin/error">
+          <el-menu-item index="5">
+            <i class="el-icon-setting"></i>
+           错误
+          </el-menu-item>
+        </router-link>
       </el-menu>
     </div>
   </div>
