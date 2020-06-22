@@ -15,9 +15,9 @@ export function uploadError({
         message,
         filename
     };
-    console.log(info)
-        // const str = Base64.encode(JSON.stringify(info))
-        // const str = window.btoa(JSON.stringify(info));
-        // const host = "http://localhost:7001/monitor/error";
-        // new Image().src = `${host}?info=${str}`;
+    // console.log(info)
+    // const str = Base64.encode(JSON.stringify(info))
+    // const str = window.btoa(JSON.stringify(info));
+    // const host = "http://localhost:7001/monitor/error";
+    // new Image().src = `${host}?info=${str}`;
 }

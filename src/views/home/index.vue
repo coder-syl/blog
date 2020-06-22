@@ -110,6 +110,7 @@ export default {
       // return value.charAt(0).toUpperCase() + value.slice(1)
     }
   },
+  
   methods: {
     makeError(){
       console.log(1)
@@ -146,7 +147,7 @@ export default {
   },
 
   mounted() {
-  
+  abc();
     listBlog().then(res => {
       this.blogList = res.data;
       this.hasLoding = false;

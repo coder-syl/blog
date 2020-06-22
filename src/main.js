@@ -9,7 +9,12 @@ import "element-ui/lib/theme-chalk/index.css";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import globalComponents from "./components/globalComponents";
-import { uploadError } from "./utils/uploadError";
+import VueError from './utils/monitor/errorcatch'
+Vue.use(VueError)
+
+// import { uploadError } from "./utils/uploadError";
+// import './utils/monitor/error-log' // error log
+
 // import { injectJsError } from "./utils/monitor/jsError";
 // injectJsError();
 Vue.use(ElementUI);
@@ -19,20 +24,29 @@ Vue.config.productionTip = false;
 // import VueQuillEditor from 'vue-quill-editor'
 // vue提供的handleError句柄。一旦Vue发生异常都会调用这个方法。
 
-Vue.config.errorHandler = function(err, vm, info, a) {
-    console.log(err)
-        // Don't ask me why I use Vue.nextTick, it just a hack.
-        // detail see https://forum.vuejs.org/t/dispatch-in-vue-config-errorhandler-has-some-problem/23500
-    Vue.nextTick(() => {
-        // store.dispatch("errorLog/addErrorLog", {
-        //     err,
-        //     vm,
-        //     info,
-        //     url: window.location.href
-        // });
-        console.error('123', err, info);
-    });
-};
+// Vue.mixin({
+//     beforeCreate() {
+//         const methods = this.$options.methods || {}
+//         Object.keys(methods).forEach(key => {
+//             let fn = methods[key]
+//             this.$options.methods[key] = function(...args) {
+//                 let ret = fn.apply(this, args)
+//                 if (ret && typeof ret.catch === "function") {
+//                     console.log(ret.catch(Vue.config.asyncErrorHandler))
+//                     console.log(ret, 'ret')
+
+//                     return ret.catch(Vue.config.asyncErrorHandler)
+
+//                 } else { // 默认错误处理
+//                     console.log(ret, "ret12")
+//                     return ret
+
+//                 }
+
+//             }
+//         })
+//     }
+// })
 
 // // require styles
 // import 'quill/dist/quill.core.css'

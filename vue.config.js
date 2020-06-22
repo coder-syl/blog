@@ -93,28 +93,28 @@ module.exports = {
         ],
         optimization: {
             // optimization.minimize 属性就像是 optimization.minimizer 的开关，
-            minimize: isProduction ? true : false,
-            // optimization.minimizer 属性是用来放入各种压缩 js 程序套件，如 TerserWebpackPlugin。
-            minimizer: [
-                // 打包移除console
-                new TerserPlugin({
-                    terserOptions: {
-                        output: {
-                            comments: false // 去掉注释
-                        },
-                        parallel: true, // 启用并行压缩
-                        cache: true, // 启用缓存
-                        ecma: undefined,
-                        warnings: false,
-                        parse: {},
-                        compress: {
-                            drop_console: true,
-                            drop_debugger: false,
-                            pure_funcs: ["console.log"] // 移除console
-                        }
-                    }
-                })
-            ],
+            // minimize: isProduction ? true : false,
+            // // optimization.minimizer 属性是用来放入各种压缩 js 程序套件，如 TerserWebpackPlugin。
+            // minimizer: [
+            //     // 打包移除console
+            //     new TerserPlugin({
+            //         terserOptions: {
+            //             output: {
+            //                 comments: false // 去掉注释
+            //             },
+            //             parallel: true, // 启用并行压缩
+            //             cache: true, // 启用缓存
+            //             ecma: undefined,
+            //             warnings: false,
+            //             parse: {},
+            //             compress: {
+            //                 drop_console: true,
+            //                 drop_debugger: false,
+            //                 pure_funcs: ["console.log"] // 移除console
+            //             }
+            //         }
+            //     })
+            // ],
             splitChunks: {
                 chunks: "async",
                 minSize: 30000, //单位是byte，超过这个大小的文件才会被打包
