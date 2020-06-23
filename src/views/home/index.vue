@@ -147,7 +147,6 @@ export default {
   },
 
   mounted() {
-  abc();
     listBlog().then(res => {
       this.blogList = res.data;
       this.hasLoding = false;
@@ -157,6 +156,7 @@ export default {
       this.hasLoding = false;
     });
          
+     abc();    
   }
 };
 </script>

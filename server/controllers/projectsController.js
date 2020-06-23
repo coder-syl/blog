@@ -3,7 +3,6 @@ const projectsService = require("../service/projectsService");
 class projectsController {
     static async getAllProjects(ctx) {
         const { query } = ctx.request; // 获取前端传来的参数
-        console.log(query, '123=============================')
         try {
             let data = await projectsService.getAllProjects(query)
             ctx.response.status = 200;

@@ -14,37 +14,43 @@ const errors = (sequelize, DataTypes) => {
             field: 'content'
         },
         // 出错行
-        errorLineNo:{
+        errorLineNo: {
             type: DataTypes.STRING,
             allowNull: false,
             field: 'errorLineNo'
         },
         // 出错文件
-        errorFilename:{
+        errorFilename: {
             type: DataTypes.STRING,
             allowNull: false,
             field: 'errorFilename'
         },
         // 用户客户端
-        userAgent:{
+        userAgent: {
             type: DataTypes.STRING,
             allowNull: false,
             field: 'userAgent'
         },
         // 当前用户所在路径
-        path:{
+        path: {
             type: DataTypes.STRING,
             allowNull: false,
             field: 'path'
         },
         // 错误类型
-        errorType:{
+        errorType: {
             type: DataTypes.STRING,
             allowNull: false,
             field: 'errorType'
         },
+        // 错误stack
+        errorStack: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: 'errorStack'
+        },
         // 异常级别
-        errorLevel:{
+        errorLevel: {
             type: DataTypes.STRING,
             allowNull: false,
             field: 'errorLevel'

@@ -35,20 +35,20 @@ export function getErrorByClassification(id, hasLoading = true) {
         hasLoading: hasLoading
     })
 }
-export function addError(article, hasLoading = false) {
+export function addError(errors, hasLoading = false) {
     return request({
         url: '/addError/',
         method: 'post',
-        data: article,
+        data: errors,
         hasLoading: hasLoading
     })
 
 }
-export function updateErrorById(article, hasLoading = false) {
+export function updateErrorById(errors, hasLoading = false) {
     return request({
         url: '/updateErrorById/',
         method: 'post',
-        data: article,
+        data: errors,
         hasLoading: hasLoading
     })
 

@@ -9,14 +9,15 @@ import "element-ui/lib/theme-chalk/index.css";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import globalComponents from "./components/globalComponents";
+
+import { injectJsError } from "./utils/monitor/jsError";
+injectJsError();
 import VueError from './utils/monitor/errorcatch'
 Vue.use(VueError)
 
 // import { uploadError } from "./utils/uploadError";
 // import './utils/monitor/error-log' // error log
 
-// import { injectJsError } from "./utils/monitor/jsError";
-// injectJsError();
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(globalComponents);
