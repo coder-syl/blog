@@ -116,6 +116,7 @@
         :page.sync="queryParams.pageNum"
         :limit.sync="queryParams.pageSize"
         :page-sizes="[100, 200, 300, 400]"
+        :page-size="queryParams.pageSize"
         :current-page.sync="pageConf.pageCode"
         @current-change="handleCurrentChange"
       ></el-pagination>
@@ -199,7 +200,7 @@ export default {
         //设置一些初始值(会被覆盖)
         pageCode: 1, //当前页
         pageSize: 10, //每页显示的记录数
-        totalPage: 12, //总记录数
+        totalPage: "", //总记录数
         pageOption: [10, 20] //分页选项
       }
     };

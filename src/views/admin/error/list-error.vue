@@ -17,17 +17,16 @@
           <el-button icon="el-icon-refresh" size="mini" @click="resetQuery('queryForm')">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-row :gutter="10" class="mb8">
+      <!-- <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
           <el-button
             type="warning"
             icon="el-icon-download"
             size="mini"
             @click="handleExport"
-            v-hasPermi="['biz:server:export']"
           >导出</el-button>
         </el-col>
-      </el-row>
+      </el-row>-->
     </div>
     <el-table
       ref="multipleTable"
@@ -38,16 +37,17 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="errorLevel" label="异常级别" width="200" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="id" label="异常级别" width="200" show-overflow-tooltip></el-table-column>
       <el-table-column
         prop="errorType"
         :filters="[{text: 'error', value: 'error'}, {text: 'waring', value: 'waring'}]"
         label="异常类型"
-        width="120"
+        width="160"
         :filter-method="filterHandler"
         show-overflow-tooltip
       ></el-table-column>
-      <el-table-column prop="content" label="内容" width="400" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="content" label="内容" width="200" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="errorStack" label="内容" width="400" show-overflow-tooltip></el-table-column>
       <!-- <el-table-column prop label="标签" width="120" show-overflow-tooltip></el-table-column> -->
       <el-table-column :formatter="formatDate" prop="createdAt" label="发布日期" show-overflow-tooltip></el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -58,28 +58,43 @@
     </el-table>
     <div class="block">
       <el-pagination
-        :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
-        :page-sizes="[100, 200, 300, 400]"
-        :current-page.sync="pageConf.pageCode"
+        :hide-on-single-page="true"
+        :total="pageConf.total"
+        :page-size="queryParams.pageSize"
+        :current-page.sync="pageConf.curPage"
         @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+        layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
     </div>
+
+    <el-dialog title="错误详情" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
+      {{dialogErrorDetail.errorStack}}
+      <!-- {{dialogErrorDetail.error}} -->
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">关 闭</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { listError, deleteErrorById } from "@/api/error/error";
+import { listError, deleteErrorById, getErrorById } from "@/api/error/error";
 export default {
   name: "admin-error",
   data() {
     return {
+      // 表格数据
       tableData: [],
       multipleSelection: [],
       queryParams: {
         pageNum: 1,
         pageSize: 10
       },
+      // 详情
+      dialogFormVisible: false,
+      // 详情数据
+      dialogErrorDetail: "",
       total: 100,
       // 选中的数组
       ids: [],
@@ -88,9 +103,9 @@ export default {
       loading: false,
       pageConf: {
         //设置一些初始值(会被覆盖)
-        pageCode: 1, //当前页
+        curPage: 1, //当前页
         pageSize: 10, //每页显示的记录数
-        totalPage: 12, //总记录数
+        total: 12, //总记录数
         pageOption: [10, 20] //分页选项
       }
     };
@@ -100,10 +115,20 @@ export default {
   },
   methods: {
     //pageSize改变时触发的函数
-    handleSizeChange(val) {},
+    handleSizeChange(val) {
+      this.pageConf.pageSize=val
+      listError(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total = response.data.count;
+      });
+    },
     //当前页改变时触发的函数
     handleCurrentChange: function() {
-      console.log("页码改变了" + this.pageConf.pageCode);
+      console.log("页码改变了" + this.pageConf.curPage);
+      listError(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total = response.data.count;
+      });
     },
     formatDate(row, column, created_time) {
       let createTime = new Date(created_time);
@@ -122,8 +147,9 @@ export default {
       );
     },
     getAllError() {
-      listError(true).then(response => {
-        this.tableData = response.data;
+      listError(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total = response.data.count;
       });
     },
     filterHandler(value, row, column) {
@@ -138,6 +164,14 @@ export default {
       } else {
         this.$refs.multipleTable.clearSelection();
       }
+    },
+    handleDetail(row) {
+      console.log(row);
+      this.dialogFormVisible = true;
+      getErrorById(row.id).then(res => {
+        console.log(res.data);
+        this.dialogErrorDetail = res.data;
+      });
     },
     handleSelectionChange(val) {
       // 这个函数是用来获取当前选中的数据

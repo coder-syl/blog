@@ -2,8 +2,13 @@ const errorsService = require("../service/errorsService");
 
 class errorsController {
     static async getAllError(ctx) {
+        console.log(ctx.request.query);
+        console.log(ctx.request.body);
+        console.log(ctx.params);
+        const curPage = Number(ctx.request.query.curPage);
+        const pageSize = Number(ctx.request.query.pageSize);
         try {
-            let data = await errorsService.getAllError(); // 获取查询的数据
+            let data = await errorsService.getAllError(curPage, pageSize); // 获取查询的数据
             ctx.response.status = 200;
             ctx.body = {
                 code: 200,

@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 // 查询文章列表
-export function listError(hasLoading = false) {
+export function listError(query, hasLoading = false) {
+    console.log('============1', query, )
     return request({
         url: '/allErrors',
         method: 'get',
-        // params: query,
+        params: query,
         hasLoading: hasLoading
     })
 }
@@ -12,7 +13,7 @@ export function getErrorOrderByVisitCount(hasLoading = false) {
     return request({
         url: '/getErrorOrderByVisitCount',
         method: 'get',
-        // params: query,
+        params: query,
         hasLoading: hasLoading
     })
 }

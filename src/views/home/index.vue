@@ -27,7 +27,7 @@
             <div>
               <p class="blog-content-title">{{item.title}}</p>
 
-              <p class="blog-content-descript">{{item.content}}</p>
+              <p class="blog-content-descript" style="width">{{item.content}}</p>
             </div>
             <div class="blog-content-img">
               <img src="https://poile-img.nos-eastchina1.126.net/1592234164693.jpg" alt />
