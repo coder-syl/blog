@@ -62,7 +62,7 @@ export default {
         window.pageYOffset ||
         document.body.scrollTop;
 
-      if (scrollTop >= 130) {
+      if (scrollTop >= 80) {
         vm.isFixed = "tag-menu-fixed";
         // vm.setFixed("tag-menu-fixed")
         // console.log(vm.isFixed);
@@ -111,6 +111,7 @@ export default {
   background-color: #fff;
   width: 100%;
   margin: auto;
+  height: 80px;
 }
 .tag-menu-fixed {
   position: fixed;

@@ -4,7 +4,7 @@
       <tagMenu v-model="curClaId"></tagMenu>
     </div>
     <div class="index">
-      <button @click="makeError"> asdfa</button>
+      <!-- <button @click="makeError"> asdfa</button> -->
       <div class="blogList" v-loading="hasLoding">
         <div class="blog" v-show="!(blogList.length>0)">
           <div class="blogHeader"></div>

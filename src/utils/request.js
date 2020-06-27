@@ -90,7 +90,7 @@ service.interceptors.response.use(
                 error.response.status in httpCode ?
                 httpCode[error.response.status] :
                 error.response.data.message;
-            Message({
+            MessageBox({
                 message: tips,
                 type: "error"
             });

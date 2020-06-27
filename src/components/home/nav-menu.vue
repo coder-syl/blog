@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-menu">
+  <div :class="showFixed">
     <div class="menu-left">
       <el-image style="width: 80px; height: 65px;" :src="url"></el-image>
     </div>
@@ -44,10 +44,19 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      showFixed:"nav-menu",
       url: "http://sylblog.xin/usr/themes/Akina/images/akina.png"
     };
   },
   mounted() {
+    // console.log(,)
+    if(this.$route.path==='/detail'){
+      this.showFixed="nav-menu-flex"
+            console.log(this.showFixed,'==============')
+
+    }else{
+      this.showFixed="nav-menu"
+    }
     listClassifications(this.queryParams).then(response => {
       this.tableData = response.data;
     });
@@ -74,7 +83,19 @@ export default {
 .nav-menu {
   background-color: #fff;
   width: 100%;
+  
   margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* position: fixed;
+  top: 0; */
+}
+.nav-menu-flex {
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  top:0;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

@@ -1,5 +1,5 @@
-import { addError } from "../../api/error/error"
-import errorStackParser from "error-stack-parser"
+import { addError } from "../../api/error/error";
+import errorStackParser from "error-stack-parser";
 // function isPromise(ret) {
 //   return (
 //     ret && typeof ret.then === "function" && typeof ret.catch === "function"
@@ -9,17 +9,19 @@ const errorHandler = (error, vm, info) => {
     // eslint-disable-next-line no-console
     console.error("抛出全局异常");
     // eslint-disable-next-line no-console
-    console.error(vm, 'vm');
-    console.error(window.location.href, 'vm');
+    console.error(vm, "vm");
+    console.error(window.location.href, "vm");
     // eslint-disable-next-line no-console
-    console.error(error.name, 'error');
-    console.log(errorStackParser.parse(error)[0])
-        // alert(error.stack)
-        // eslint-disable-next-line no-console
-    console.error(info, 'info');
+    console.error(error.name, "error");
+    console.log(errorStackParser.parse(error)[0]);
+    // alert(error.stack)
+    // eslint-disable-next-line no-console
+    console.error(info, "info");
     let errors = {
         content: error.message,
         errorLineNo: errorStackParser.parse(error)[0].lineNumber,
+        errorColumNo: errorStackParser.parse(error)[0].columnNumber,
+        errorOrigin: "vue-errorHandler",
         errorFilename: errorStackParser.parse(error)[0].fileName,
         path: window.location.href,
         errorType: error.name,
@@ -68,7 +70,7 @@ const errorHandler = (error, vm, info) => {
 // };
 let VueError = {
     // eslint-disable-next-line no-unused-vars
-    install: (Vue, options) => {    
+    install: (Vue, options) => {
         /**
          * 全局异常处理
          * @param {

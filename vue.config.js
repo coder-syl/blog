@@ -4,12 +4,13 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const UploadSourceMapWebpackPlugin = require('./src/utils/source-map/UploadSourceMapWebpackPlugin')
 
 var webpack = require("webpack")
+
 function resolve(dir) {
     return path.resolve(__dirname, dir)
 }
 // 是否为生产环境
 const isProduction = process.env.NODE_ENV !== 'development'
-// 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
+    // 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
 const devNeedCdn = false
 
 // html-webpack-plugin配置cdn
@@ -28,14 +29,14 @@ const cdn = {
     },
     // cdn的css链接
     css: [
-        'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+        // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
     ],
     js: [
         'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js',
         'https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js',
         'https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js',
         'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js',
-        'https://unpkg.com/element-ui/lib/index.js'
+        // 'https://unpkg.com/element-ui/lib/index.js'
     ]
 }
 
@@ -66,13 +67,13 @@ module.exports = {
             port: 6060, // 端口号
             https: false,
             hotOnly: false, // 热更新
-          
+
         },
         plugins: [
             new UploadSourceMapWebpackPlugin({
-                uploadUrl:'http://localhost:3000/api/v1/uploadSourceMap',
+                uploadUrl: 'http://localhost:3000/api/v1/uploadSourceMap',
                 apiKey: 'kaikeba'
-              }),
+            })
             // new CompressionWebpackPlugin({
             //     algorithm: 'gzip',
             //     test: /\.(js|css)$/,// 匹配文件名
@@ -115,7 +116,7 @@ module.exports = {
             // ],
             splitChunks: {
                 chunks: 'async',
-                minSize: 30000,//单位是byte，超过这个大小的文件才会被打包
+                minSize: 30000, //单位是byte，超过这个大小的文件才会被打包
                 maxSize: 0,
                 minChunks: 1,
                 maxAsyncRequests: 5,

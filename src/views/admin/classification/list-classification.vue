@@ -115,8 +115,7 @@
         :total="total"
         :page.sync="queryParams.pageNum"
         :limit.sync="queryParams.pageSize"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="queryParams.pageSize"
+       
         :current-page.sync="pageConf.pageCode"
         @current-change="handleCurrentChange"
       ></el-pagination>

@@ -1,5 +1,8 @@
 const errorsService = require("../service/errorsService");
+// const { SourceMapConsumer } = require("source-map");
+const StackParser = require('../utils/stackParser')
 
+const path = require('path')
 class errorsController {
     static async getAllError(ctx) {
         console.log(ctx.request.query);
@@ -90,7 +93,26 @@ class errorsController {
     }
     static async addError(ctx) {
         let req = ctx.request.body;
-        console.log("req", req);
+        let stackSource = {
+            columnNumber: req.errorColumNo,
+            lineNumber: req.errorLineNo,
+            fileName: req.errorFilename
+        };
+        const stackParser = new StackParser(path.join(__dirname, "../public/upload/sourcemap"))
+
+        await stackParser.getOriginPosition(stackSource).then(res => {
+            console.log('res=======', res.line)
+            req.errorLineNo = res.line
+            req.errorColumNo = res.column
+            req.errorSource = res.source
+        })
+
+
+        // console.log('originStack------------------------', originStack.line, originStack.column, originStack.source)
+
+
+
+        console.log("req========", req);
 
         if (req.errorStack && req.content) {
             try {

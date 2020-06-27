@@ -13,12 +13,14 @@ export function injectJsError() {
     //     console.error(error.description);
     // }
     window.addEventListener("error", function(e) {
-        console.log("erroe 监控")
+        console.log("error 监控")
         console.log(errorStackParser.parse(e.error)[0].fileName, '------------error');
         let errors = {
             content: e.error.message,
             errorLineNo: errorStackParser.parse(e.error)[0].lineNumber,
             errorFilename: errorStackParser.parse(e.error)[0].fileName,
+            errorColumNo: errorStackParser.parse(e.error)[0].columnNumber,
+            errorOrigin: "EventListener-error",
             path: e.path[0].location.href,
             errorType: e.message.split(':')[0],
             errorLevel: 1,
@@ -38,6 +40,8 @@ export function injectJsError() {
         let errors = {
             content: event.reason.message,
             errorLineNo: errorStackParser.parse(event.reason)[0].lineNumber,
+            errorColumNo: errorStackParser.parse(event.reason)[0].columnNumber,
+            errorOrigin: "EventListener-unhandledrejection",
             errorFilename: errorStackParser.parse(event.reason)[0].fileName,
             path: event.reason.config.baseURL + event.reason.config.url,
             errorType: event.type,
@@ -49,6 +53,6 @@ export function injectJsError() {
         addError(errors).then(res => {
             console.log(res);
         });
-
+        return
     });
 }

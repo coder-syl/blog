@@ -37,7 +37,8 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="异常级别" width="200" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="id" label="异常级别" width="50" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="errorOrigin" label="捕获源" width="150" show-overflow-tooltip></el-table-column>
       <el-table-column
         prop="errorType"
         :filters="[{text: 'error', value: 'error'}, {text: 'waring', value: 'waring'}]"
