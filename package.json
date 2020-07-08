@@ -28,6 +28,8 @@
     "@vue/cli-plugin-router": "~4.2.0",
     "@vue/cli-plugin-vuex": "~4.2.0",
     "@vue/cli-service": "~4.2.0",
+    "sass": "^1.26.9",
+    "svg-sprite-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.11"
   }
 }

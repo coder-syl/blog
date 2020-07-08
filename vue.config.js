@@ -1,17 +1,17 @@
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin');
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const UploadSourceMapWebpackPlugin = require('./src/utils/source-map/UploadSourceMapWebpackPlugin')
+const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const UploadSourceMapWebpackPlugin = require("./src/utils/source-map/UploadSourceMapWebpackPlugin");
 
-var webpack = require("webpack")
+var webpack = require("webpack");
 
 function resolve(dir) {
-    return path.resolve(__dirname, dir)
+    return path.resolve(__dirname, dir);
 }
 // 是否为生产环境
-const isProduction = process.env.NODE_ENV !== 'development'
-    // 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
-const devNeedCdn = false
+const isProduction = process.env.NODE_ENV !== "development";
+// 开发环境是否需要使用cdn,true的情况下可以在浏览器看到对应的引入资源的标签
+const devNeedCdn = false;
 
 // html-webpack-plugin配置cdn
 const cdn = {
@@ -21,10 +21,10 @@ const cdn = {
     // 就不会去本地组件包中查找这些在 externals 中注册的组件了（自然也不会将他们打包到一个 app.js 中去），
     // 而是会去 window 域下直接调用 Vue, VueRouter, $ 等对象。
     externals: {
-        'vue': 'Vue',
-        'vue-router': 'VueRouter',
-        'vuex': 'Vuex',
-        'axios': 'axios',
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        vuex: "Vuex",
+        axios: "axios",
         "element-ui": "ELEMENT"
     },
     // cdn的css链接
@@ -32,47 +32,44 @@ const cdn = {
         // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
     ],
     js: [
-        'https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js',
-        'https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js',
-        'https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js',
-        'https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js',
+        "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js",
+        "https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js",
+        "https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js",
+        "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"
         // 'https://unpkg.com/element-ui/lib/index.js'
     ]
-}
+};
 
 module.exports = {
     // 是都开启eslint
     lintOnSave: false,
     // 设置静态资源，防止找不到
-    publicPath: './',
-    // 
+    publicPath: "./",
+    //
     productionSourceMap: true, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
     // configureWebpack支持函数写法
     configureWebpack: {
-
-
-        devtool: isProduction ? 'nosources-source-map' : false, //选择合适的打包方式  'cheap-module-source-map'适合开发环境
-        externals: (isProduction || devNeedCdn) ? cdn.externals : {},
+        devtool: isProduction ? "nosources-source-map" : false, //选择合适的打包方式  'cheap-module-source-map'适合开发环境
+        externals: isProduction || devNeedCdn ? cdn.externals : {},
         resolve: {
             alias: {
-                '@': resolve('src'),
-                '@views': resolve('src/views'),
-                '@admin': resolve('src/views/admin'),
-                '@components': resolve('src/components')
+                "@": resolve("src"),
+                "@views": resolve("src/views"),
+                "@admin": resolve("src/views/admin"),
+                "@components": resolve("src/components")
             }
         },
         devServer: {
             open: false, // 自动启动浏览器
-            host: '0.0.0.0', // localhost
+            host: "0.0.0.0", // localhost
             port: 6060, // 端口号
             https: false,
-            hotOnly: false, // 热更新
-
+            hotOnly: false // 热更新
         },
         plugins: [
             new UploadSourceMapWebpackPlugin({
-                uploadUrl: 'http://localhost:3000/api/v1/uploadSourceMap',
-                apiKey: 'kaikeba'
+                uploadUrl: "http://localhost:3000/api/v1/uploadSourceMap",
+                apiKey: "kaikeba"
             })
             // new CompressionWebpackPlugin({
             //     algorithm: 'gzip',
@@ -87,7 +84,6 @@ module.exports = {
             //     hashDigest: 'hex',
             //     hashDigestLength: 20
             // }),
-
         ],
         optimization: {
             // optimization.minimize 属性就像是 optimization.minimizer 的开关，
@@ -115,13 +111,13 @@ module.exports = {
             //     }),
             // ],
             splitChunks: {
-                chunks: 'async',
+                chunks: "async",
                 minSize: 30000, //单位是byte，超过这个大小的文件才会被打包
                 maxSize: 0,
                 minChunks: 1,
                 maxAsyncRequests: 5,
                 maxInitialRequests: 3,
-                automaticNameDelimiter: '~',
+                automaticNameDelimiter: "~",
                 name: true,
                 cacheGroups: {
                     vendors: {
@@ -135,14 +131,32 @@ module.exports = {
                     }
                 }
             }
-        },
+        }
     },
-    chainWebpack: (config) => {
-        config.plugin('html').tap(options => {
+    chainWebpack: config => {
+        config.plugin("html").tap(options => {
             // 生产环境或本地需要cdn时，才注入cdn
-            if (isProduction || devNeedCdn) options[0].cdn = cdn
-            return options
+            if (isProduction || devNeedCdn) options[0].cdn = cdn;
+            return options;
         });
+
+        // 配置svg默认规则排除icons目录中svg文件处理
+        config.module
+            .rule("svg")
+            .exclude.add(resolve("src/assets/icons"))
+            .end();
+
+        // 新增icons规则，设置svg-sprite-loader处理icons目录中svg文件
+        config.module
+            .rule("icons")
+            .test(/\.svg$/)
+            .include.add(resolve("src/assets/icons"))
+            .end()
+            .use("svg-sprite-loader")
+            .loader("svg-sprite-loader")
+            .options({ symbolId: "icon-[name]" })
+            .end();
+
 
         // if (isProduction) {
         //     config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
@@ -164,7 +178,5 @@ module.exports = {
         // 为所有的 CSS 及其预处理文件开启 CSS Modules。
         // 这个选项不会影响 `*.vue` 文件。
         requireModuleExtension: true
-    },
-
-
-}
+    }
+};

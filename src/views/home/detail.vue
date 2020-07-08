@@ -1,12 +1,13 @@
 <template>
   <div>
+    <detailPanel></detailPanel>
     <div class="blog-detail">
       <div class="blog-detail-container">
         <div class="blog-detail-title">{{blogDetai.title}}</div>
         <div class="author-info-block">
           <div class="avatar-wrapper">
-              <!-- <img :src="article.user.avatar || defaultAvatar" class="avatar"> -->
-              <img src="https://poile-img.nos-eastchina1.126.net/me.png" class="avatar">
+            <!-- <img :src="article.user.avatar || defaultAvatar" class="avatar"> -->
+            <img src="https://avatars2.githubusercontent.com/u/23353792?s=60&v=4" class="avatar" />
           </div>
           <div class="author-info-box">
             <p class="nickename">{{ blogDetai.author }}</p>
@@ -17,8 +18,14 @@
           </div>
         </div>
         <div class="text-container my-markdown-body" v-html="blogDetai.htmlContent"></div>
-        <div>
-          <copyright></copyright>
+        <div style="margin-bottom:20px;">
+          <detailCopyright></detailCopyright>
+          <div class="edit-container">
+            <quill-editor v-model="recontent" :options="reEditorOption" />
+          </div>
+          <div class="main-tools-box" style="float:right">
+            <el-button :loading="cloading" type="danger" size="mini" @click="commentSubmit">评论</el-button>
+          </div>
         </div>
       </div>
       <div class="cardList">
@@ -44,7 +51,12 @@ export default {
   name: "home-detail",
   data() {
     return {
-      blogDetai: {}
+      blogDetai: {},
+      recontent: {},
+      reEditorOption: {
+        modules: {},
+        placeholder: "回复点啥子呢？"
+      }
     };
   },
   mounted() {
@@ -70,9 +82,39 @@ export default {
   margin-top: 90px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start	;
+  justify-content: flex-start;
 }
+.edit-container {
+  margin: 0 auto;
+  padding: 15px 0px;
 
+  @media screen and (max-width: 960px) {
+    padding: 0;
+  }
+
+  ::v-deep .ql-container.ql-snow {
+    border: none;
+  }
+
+  ::v-deep .ql-toolbar.ql-snow {
+    border: none;
+  }
+
+  ::v-deep .ql-editor {
+    border: 1px solid #e74851;
+    border-radius: 5px;
+    min-height: 120px;
+    padding: 20px;
+  }
+
+  ::v-deep .ql-stroke {
+    stroke: #e74851;
+  }
+
+  ::v-deep .ql-fill {
+    fill: #e74851;
+  }
+}
 .author-info-block {
   display: flex;
 
@@ -117,10 +159,10 @@ export default {
   background-color: #fff;
   .blog-detail-title {
     margin: 0.67em 0;
-        font-size: 25px;
+    font-size: 25px;
     font-weight: 700;
     color: #222;
- 
+
     // line-height: 1.5;
   }
   .text-container {
@@ -132,7 +174,7 @@ export default {
   position: fixed;
   width: 20%;
   right: 10%;
-  top:90px;
+  top: 90px;
   .text {
     font-size: 14px;
   }

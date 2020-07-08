@@ -70,29 +70,8 @@
     </div>
 
     <el-dialog title="错误详情" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
-      <el-row type="flex" class="row-bg" justify="center">
-        <el-col :span="12">
-          <div>
-            <span class="message-title" style="padding-right: 16px;;">Msg:</span>
-            <br><el-tag type="danger">{{ dialogErrorDetail.content }}</el-tag>
-          </div>
-          <br />
-          <div>
-            <span class="message-title" style="padding-right:21px; ">Url:</span>
-            <br><el-tag type="success">{{ dialogErrorDetail.path }}</el-tag>
-          </div>
-          <br />
-           <div>
-            <span class="message-title" style="padding-right: 16px;;">Info:</span>
-            <br><el-tag type="warning">error in {{ dialogErrorDetail.errorFilename}}</el-tag>
-          </div>
-         
-        </el-col>
-        <el-col :span="12">
-          <div v-for="o in errorStackList" :key="o" class="text item">{{ o }}</div>
-          <!-- {{dialogErrorDetail.errorStack | formatStack}} -->
-        </el-col>
-      </el-row>
+      {{dialogErrorDetail.errorStack}}
+      <!-- {{dialogErrorDetail.error}} -->
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">关 闭</el-button>
@@ -113,7 +92,6 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      errorStackList:[],
       // 详情
       dialogFormVisible: false,
       // 详情数据
@@ -136,16 +114,10 @@ export default {
   created() {
     this.getAllError();
   },
-  filters: {
-    formatStack: function(value) {
-      console.log(value);
-      return String(value).split(" at ");
-    }
-  },
   methods: {
     //pageSize改变时触发的函数
     handleSizeChange(val) {
-      this.pageConf.pageSize = val;
+      this.pageConf.pageSize=val
       listError(this.pageConf, true).then(response => {
         this.tableData = response.data.rows;
         this.pageConf.total = response.data.count;
@@ -196,8 +168,6 @@ export default {
     },
     handleDetail(row) {
       console.log(row);
-      // alert(row.errorStack);
-      this.errorStackList=String(row.errorStack).split(" at ");
       this.dialogFormVisible = true;
       getErrorById(row.id).then(res => {
         console.log(res.data);
@@ -220,13 +190,6 @@ export default {
 };
 </script>
 <style  scoped>
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
 .el-pagination {
   right: 0;
   position: absolute;
