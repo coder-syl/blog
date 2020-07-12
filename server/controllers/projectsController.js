@@ -2,9 +2,11 @@ const projectsService = require("../service/projectsService");
 
 class projectsController {
     static async getAllProjects(ctx) {
-        const { query } = ctx.request; // 获取前端传来的参数
+        // const { query } = ctx.request; // 获取前端传来的参数
+        const curPage = Number(ctx.request.query.curPage);
+        const pageSize = Number(ctx.request.query.pageSize);
         try {
-            let data = await projectsService.getAllProjects(query)
+            let data = await projectsService.getAllProjects(curPage,pageSize)
             ctx.response.status = 200;
             ctx.body = {
                 code: 200,

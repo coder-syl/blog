@@ -108,22 +108,19 @@ export default {
 .tag-menu {
   transition: all 0.2s;
   transform: translateZ(0);
+  background-color: #fff;
   width: 100%;
   margin: auto;
+  height: 80px;
 }
 .tag-menu-fixed {
   position: fixed;
   top: 0;
-  height: 60px;
 }
 .tag-list {
   border: solid 1px rgba(0, 0, 0, 0.05);
-  /* border: solid 1px red; */
-    height:60px;
-  background-color: #fff;
-
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  /* padding-bottom: 15px; */
+  padding-bottom: 15px;
 }
 .paraent-list {
   width: 70%;
@@ -134,6 +131,7 @@ export default {
 }
 .child-tag-list {
   background-color: #f4f5f5;
+  margin-bottom: 100px;
 }
 .child-list {
   width: 70%;

@@ -8,7 +8,7 @@ const Op = equelize.Op;
 class errorsService {
     /** 获取所有文章 */
     static async getAllError(curPage, pageSize) {
-            let offset = (curPage - 1) * 10;
+            let offset = (curPage - 1) * pageSize;
 
             return await Errors.findAndCountAll({
                 //offet去掉前多少个数据

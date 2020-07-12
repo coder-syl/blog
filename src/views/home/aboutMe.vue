@@ -24,9 +24,9 @@
           <aboutAboutMeTech></aboutAboutMeTech>
         </div>
       </div>
-      <div class="section section4">
+      <!-- <div class="section section4"> -->
         <!-- <progressBar></progressBar> -->
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -52,9 +52,12 @@ export default {
       }
     };
   },
+  mounted() {
+    this.$performanceMonitor();
+  },
   methods: {
     next() {
-      let len = 4;
+      let len = document.getElementsByClassName('section').length;
       if (this.fullpage.current + 1 <= len) {
         this.fullpage.current += 1;
         this.move(this.fullpage.current);

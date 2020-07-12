@@ -1,73 +1,75 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 // 查询文章列表
-export function listBlog(hasLoading = false) {
-    return request({
-        url: '/allBlogs',
-        method: 'get',
-        // params: query,
-        hasLoading: hasLoading
-    })
+export function listBlog(
+  query = {
+    curPage: 0,
+    pageSize: 0
+  },
+  hasLoading = false
+) {
+  return request({
+    url: "/allBlogs",
+    method: "get",
+    params: query,
+    hasLoading: hasLoading
+  });
 }
 export function getBlogOrderByVisitCount(hasLoading = false) {
-    return request({
-        url: '/getBlogOrderByVisitCount',
-        method: 'get',
-        // params: query,
-        hasLoading: hasLoading
-    })
+  return request({
+    url: "/getBlogOrderByVisitCount",
+    method: "get",
+    // params: query,
+    hasLoading: hasLoading
+  });
 }
 
 // 根据id获取文章
 export function getBlogById(id, hasLoading = true) {
-    return request({
-        url: '/getBlogById/' + id,
-        method: 'get',
-        // params:query,
-        hasLoading: hasLoading
-    })
+  return request({
+    url: "/getBlogById/" + id,
+    method: "get",
+    // params:query,
+    hasLoading: hasLoading
+  });
 }
 // 根据id获取文章
 export function getBlogByClassification(id, hasLoading = true) {
-    return request({
-        url: '/getBlogByClassification/' + id,
-        method: 'get',
-        // params:query,
-        hasLoading: hasLoading
-    })
+  return request({
+    url: "/getBlogByClassification/" + id,
+    method: "get",
+    // params:query,
+    hasLoading: hasLoading
+  });
 }
 export function addBlog(article, hasLoading = false) {
-    return request({
-        url: '/addBlog/',
-        method: 'post',
-        data: article,
-        hasLoading: hasLoading
-    })
-
+  return request({
+    url: "/addBlog/",
+    method: "post",
+    data: article,
+    hasLoading: hasLoading
+  });
 }
 export function updateBlogById(article, hasLoading = false) {
-    return request({
-        url: '/updateBlogById/',
-        method: 'post',
-        data: article,
-        hasLoading: hasLoading
-    })
-
+  return request({
+    url: "/updateBlogById/",
+    method: "post",
+    data: article,
+    hasLoading: hasLoading
+  });
 }
 // 删除项目信息
 export function delProject(id) {
-    return request({
-        url: "/delProject/" + id,
-        method: 'delete'
-
-    })
+  return request({
+    url: "/delProject/" + id,
+    method: "delete"
+  });
 }
 // 删除信息
 export function deleteBlogById(deletef, id, hasLoading = false) {
-    return request({
-        url: "/deleteBlogById/",
-        method: 'post',
-        data: { deletef, id },
-        hasLoading: hasLoading
-
-    })
+  return request({
+    url: "/deleteBlogById/",
+    method: "post",
+    data: { deletef, id },
+    hasLoading: hasLoading
+  });
 }

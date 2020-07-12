@@ -28,15 +28,13 @@ const cdn = {
         "element-ui": "ELEMENT"
     },
     // cdn的css链接
-    css: [
-        // 'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
-    ],
+    css: ["https://unpkg.com/element-ui/lib/theme-chalk/index.css"],
     js: [
         "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js",
         "https://cdn.jsdelivr.net/npm/vue-router@3.0.1/dist/vue-router.min.js",
         "https://cdn.jsdelivr.net/npm/vuex@3.0.1/dist/vuex.min.js",
-        "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"
-        // 'https://unpkg.com/element-ui/lib/index.js'
+        "https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js",
+        "https://unpkg.com/element-ui/lib/index.js"
     ]
 };
 
@@ -58,6 +56,10 @@ module.exports = {
                 "@admin": resolve("src/views/admin"),
                 "@components": resolve("src/components")
             }
+        },
+        output: {
+            filename: "[name].[hash].js",
+            path: path.resolve(__dirname, "dist")
         },
         devServer: {
             open: false, // 自动启动浏览器
@@ -139,14 +141,10 @@ module.exports = {
             if (isProduction || devNeedCdn) options[0].cdn = cdn;
             return options;
         });
-
-        // 配置svg默认规则排除icons目录中svg文件处理
         config.module
             .rule("svg")
             .exclude.add(resolve("src/assets/icons"))
             .end();
-
-        // 新增icons规则，设置svg-sprite-loader处理icons目录中svg文件
         config.module
             .rule("icons")
             .test(/\.svg$/)
@@ -154,9 +152,10 @@ module.exports = {
             .end()
             .use("svg-sprite-loader")
             .loader("svg-sprite-loader")
-            .options({ symbolId: "icon-[name]" })
+            .options({
+                symbolId: "icon-[name]"
+            })
             .end();
-
 
         // if (isProduction) {
         //     config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true

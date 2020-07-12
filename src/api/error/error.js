@@ -1,6 +1,9 @@
 import request from '@/utils/request'
 // 查询文章列表
-export function listError(query, hasLoading = false) {
+export function listError( query = {
+    curPage: 0,
+    pageSize: 0
+  }, hasLoading = false) {
     console.log('============1', query, )
     return request({
         url: '/allErrors',

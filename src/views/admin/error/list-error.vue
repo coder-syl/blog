@@ -61,7 +61,7 @@
       <el-pagination
         :hide-on-single-page="true"
         :total="pageConf.total"
-        :page-size="queryParams.pageSize"
+        :page-size="pageConf.pageSize"
         :current-page.sync="pageConf.curPage"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"

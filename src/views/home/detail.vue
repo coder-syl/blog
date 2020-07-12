@@ -1,6 +1,6 @@
 <template>
   <div>
-    <detailPanel></detailPanel>
+    <detailPanel :blogDetail="blogDetai"></detailPanel>
     <div class="blog-detail">
       <div class="blog-detail-container">
         <div class="blog-detail-title">{{blogDetai.title}}</div>
@@ -18,13 +18,13 @@
           </div>
         </div>
         <div class="text-container my-markdown-body" v-html="blogDetai.htmlContent"></div>
-        <div style="margin-bottom:20px;">
+        <div style="margin-bottom:80px;">
           <detailCopyright></detailCopyright>
           <div class="edit-container">
             <quill-editor v-model="recontent" :options="reEditorOption" />
           </div>
           <div class="main-tools-box" style="float:right">
-            <el-button :loading="cloading" type="danger" size="mini" @click="commentSubmit">评论</el-button>
+            <el-button type="danger" size="mini">评论</el-button>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { getBlogById } from "@/api/blog/blog";
+import { getBlogById, updateBlogById } from "@/api/blog/blog";
 // import "../../styles/heilingt.css";
 
 // import marked from "marked";
@@ -51,22 +51,50 @@ export default {
   name: "home-detail",
   data() {
     return {
-      blogDetai: {},
-      recontent: {},
+      blogDetai: {
+        author: "",
+        classification_id: 5,
+        content: "",
+        createdAt: "",
+        created_time: "",
+        deletef: '',
+        htmlContent: "",
+        id: '',
+        parent_classification_id: null,
+        reply_count: '',
+        title: "",
+        updatedAt: "",
+        updated_time: "",
+        visit_count: ''
+      },
+      recontent: "",
       reEditorOption: {
         modules: {},
         placeholder: "回复点啥子呢？"
       }
     };
   },
-  mounted() {
+  created() {
+    this.$performanceMonitor();
     let id = this.$route.query.id;
     getBlogById(id).then(res => {
       console.log(res.data);
       this.blogDetai = res.data;
+      console.log(this.blogDetai.visit_count);
+      console.log(this.blogDetai.reply_count);
+      this.blogDetai.visit_count += 1;
+      updateBlogById(this.blogDetai, true).then(response => {
+        if (response.code === 200) {
+          // this.$message({
+          //   message: "更新成功",
+          //   type: "success"
+          // });
+        } else {
+          // this.$message.error("更新失败");
+        }
+      });
       // this.blogDetai.content = marked(this.blogDetai.content);
     });
-    abc();
   }
 };
 </script>

@@ -2,8 +2,10 @@ const blogsService = require("../service/blogsService");
 
 class blogsController {
   static async getAllBlog(ctx) {
+    const curPage = Number(ctx.request.query.curPage);
+    const pageSize = Number(ctx.request.query.pageSize);
     try {
-      let data = await blogsService.getAllBlog(); // 获取查询的数据
+      let data = await blogsService.getAllBlog(curPage, pageSize); // 获取查询的数据
       ctx.response.status = 200;
       ctx.body = {
         code: 200,
@@ -86,7 +88,6 @@ class blogsController {
   static async addBlog(ctx) {
     let req = ctx.request.body;
     console.log("req", req);
-
     if (req.title && req.content) {
       try {
         let data = await blogsService.addBlog(req);
@@ -116,7 +117,6 @@ class blogsController {
   static async updateBlogById(ctx) {
     let req = ctx.request.body;
     console.log("req", req);
-
     if (req.title && req.content) {
       try {
         let data = await blogsService.updateBlogById(req, req.id);

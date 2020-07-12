@@ -101,12 +101,13 @@
     </el-table>
     <div class="block">
       <el-pagination
-        :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
-        :page-sizes="[100, 200, 300, 400]"
-        :current-page.sync="pageConf.pageCode"
+        :hide-on-single-page="true"
+        :total="pageConf.total"
+        :page-size="pageConf.pageSize"
+        :current-page.sync="pageConf.curPage"
         @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+        layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
     </div>
   </div>
@@ -126,6 +127,7 @@ export default {
         // serverEnvironment: undefined,
         // id: ""
       },
+
       total: 100,
       // 选中的数组
       ids: [],
@@ -134,9 +136,9 @@ export default {
       loading: false,
       pageConf: {
         //设置一些初始值(会被覆盖)
-        pageCode: 1, //当前页
-        pageSize: 10, //每页显示的记录数
-        totalPage: 12, //总记录数
+        curPage: 1, //当前页
+        pageSize:10, //每页显示的记录数
+        total: 12, //总记录数
         pageOption: [10, 20] //分页选项
       }
     };
@@ -146,12 +148,22 @@ export default {
   },
   methods: {
     //pageSize改变时触发的函数
-    handleSizeChange(val) {},
+    handleSizeChange(val) {
+      this.pageConf.pageSize = val;
+      listBlog(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total =Number( response.data.count);
+      });
+    },
     //当前页改变时触发的函数
     handleCurrentChange: function() {
-      console.log("页码改变了" + this.pageConf.pageCode);
+      console.log("页码改变了" + this.pageConf.curPage);
+      listBlog(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total =Number( response.data.count);
+      });
     },
-    formatDate(row, column,created_time){
+    formatDate(row, column, created_time) {
       let createTime = new Date(created_time);
       return (
         createTime.getFullYear() +
@@ -163,8 +175,9 @@ export default {
       );
     },
     getAllBlog() {
-      listBlog(true).then(response => {
-        this.tableData = response.data;
+      listBlog(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total =Number( response.data.count);
       });
     },
     toggleSelection(rows) {
@@ -217,7 +230,7 @@ export default {
   margin-right: 10px;
 }
 a {
-    text-decoration: none;
-    color: #fff;
+  text-decoration: none;
+  color: #fff;
 }
 </style>

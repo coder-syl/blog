@@ -105,15 +105,17 @@
       <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>
       <el-button @click="toggleSelection()">取消选择</el-button>
     </div>-->
-    <div class="block">
+   <div class="block">
       <el-pagination
-        :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
-        :page-sizes="[100, 200, 300, 400]"
-        @pagination="handleCurrentChange"
+        :hide-on-single-page="true"
+        :total="pageConf.total"
+        :page-size="pageConf.pageSize"
+        :current-page.sync="pageConf.curPage"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+        layout="total, sizes, prev, pager, next, jumper"
       ></el-pagination>
-    </div>
+   </div>
 
     <el-dialog
       title="项目管理"
@@ -190,7 +192,7 @@ import {
 } from "@/api/project/project";
 export default {
   name: "project",
- 
+
   data() {
     return {
       // 控制dialog是否显示
@@ -225,11 +227,11 @@ export default {
       loading: false,
       formVisible: false,
       pageConf: {
-        // 设置一些初始值(会被覆盖)
-        pageCode: 1, // 当前页
-        pageSize: 5, // 每页显示的记录数
-        totalPage: 12, // 总记录数
-        pageOption: [10, 20] // 分页选项
+        //设置一些初始值(会被覆盖)
+        curPage: 1, //当前页
+        pageSize: 10, //每页显示的记录数
+        total: 12, //总记录数
+        pageOption: [10, 20] //分页选项
       }
     };
   },
@@ -239,8 +241,9 @@ export default {
   },
   methods: {
     getAllProjects() {
-      listProjects().then(response => {
-        this.tableData = response.data;
+      listProjects(this.pageConf, true).then(response => {
+        this.tableData = response.data.rows;
+        this.pageConf.total = response.data.count;
       });
     },
     tableRowClassName({ row, rowIndex }) {
@@ -252,10 +255,24 @@ export default {
       return "";
     },
     //pageSize改变时触发的函数
-    handleSizeChange(val) {},
+    handleSizeChange(val) {
+      this.pageConf.pageSize = val;
+      this.getAllProjects();
+
+      // listError(this.pageConf, true).then(response => {
+      //   this.tableData = response.data.rows;
+      //   this.pageConf.total = response.data.count;
+      // });
+    },
     //当前页改变时触发的函数
     handleCurrentChange: function() {
-      console.log("页码改变了");
+      this.getAllProjects();
+
+      console.log("页码改变了" + this.pageConf.curPage);
+      // listProjects(this.pageConf, true).then(response => {
+      //   this.tableData = response.data.rows;
+      //   this.pageConf.total = response.data.count;
+      // });
     },
     toggleSelection(rows) {
       if (rows) {

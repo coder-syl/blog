@@ -9,12 +9,20 @@ import "element-ui/lib/theme-chalk/index.css";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import globalComponents from "./components/globalComponents";
-import './assets/icons/index'
-import { injectJsError } from "./utils/monitor/jsError";
-injectJsError();
-import VueError from './utils/monitor/errorcatch'
-Vue.use(VueError)
 
+import { injectJsError } from "./utils/monitor/jsError";
+injectJsError()
+import '@/assets/icons';
+// import { performanceMonitor } from "./utils/monitor/performanceMonitor";
+// import VueError from './utils/monitor/errorcatch'
+// Vue.use(VueError)
+import vuePerformanceMonitor from './utils/monitor/performanceMonitor'
+Vue.use(vuePerformanceMonitor)
+// Vue.mixin({
+//     created: function () {
+//         performanceMonitor()
+//     }
+//   })
 // import { uploadError } from "./utils/uploadError";
 // import './utils/monitor/error-log' // error log
 
@@ -22,10 +30,42 @@ Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(globalComponents);
 Vue.config.productionTip = false;
+Vue.config.performance=true;
 import VueQuillEditor from 'vue-quill-editor'
+// require styles
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 Vue.use(VueQuillEditor, /* { default global options } */)
+
+// vue提供的handleError句柄。一旦Vue发生异常都会调用这个方法。
+
+// Vue.mixin({
+//     beforeCreate() {
+//         const methods = this.$options.methods || {}
+//         Object.keys(methods).forEach(key => {
+//             let fn = methods[key]
+//             this.$options.methods[key] = function(...args) {
+//                 let ret = fn.apply(this, args)
+//                 if (ret && typeof ret.catch === "function") {
+//                     console.log(ret.catch(Vue.config.asyncErrorHandler))
+//                     console.log(ret, 'ret')
+
+//                     return ret.catch(Vue.config.asyncErrorHandler)
+
+//                 } else { // 默认错误处理
+//                     console.log(ret, "ret12")
+//                     return ret
+
+//                 }
+
+//             }
+//         })
+//     }
+// })
+
+
 
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";

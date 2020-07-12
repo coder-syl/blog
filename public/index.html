@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title>
-        <%= htmlWebpackPlugin.options.title %>
+      <%= htmlWebpackPlugin.options.title %>
     </title>
     <!-- <link href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" rel="stylesheet"> -->
     <!-- <link href="../src/styles/markdown.css" rel="stylesheet"> -->
@@ -15,21 +14,25 @@
     <!-- 使用CDN的CSS文件 -->
     <% for (var i in htmlWebpackPlugin.options.cdn &&
     htmlWebpackPlugin.options.cdn.css) { %>
-        <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style" />
-        <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet" />
-        <% } %>
-            <!-- 使用CDN的CSS文件 -->
-            <style>
-                html,
-                body {
-                    height: 100%;
-                    width: 100%;
-                    background-color: #f4f5f5;
-                }
-            </style>
-</head>
+    <link
+      href="<%= htmlWebpackPlugin.options.cdn.css[i] %>"
+      rel="preload"
+      as="style"
+    />
+    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet" />
+    <% } %>
+    <!-- 使用CDN的CSS文件 -->
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        background-color: #f4f5f5;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
     <noscript>
       <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
@@ -42,18 +45,24 @@
     <!-- 使用CDN的JS文件 -->
     <% for (var i in htmlWebpackPlugin.options.cdn &&
     htmlWebpackPlugin.options.cdn.js) { %>
-        <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-        <% } %>
-            <!-- 使用CDN的JS文件 -->
-            <!-- built files will be auto injected -->
-            <script>
-                // window.onerror = function(e, s, l, c, error) {
-                //     console.log(e, s, l, c, error, 'onerror');
-                // };
-                // window.addEventListener("error", function(e) {
-                //     console.log(e, e.lineno, 'error');
-                // });
-            </script>
-</body>
-
+    <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+    <% } %>
+    <!-- 使用CDN的JS文件 -->
+    <!-- built files will be auto injected -->
+    <script>
+      // window.onerror = function(e, s, l, c, error) {
+      //     console.log(e, s, l, c, error, 'onerror');
+      // };
+      // window.addEventListener("error", function(e) {
+      //     console.log(e, e.lineno, 'error');
+      // });
+      // window.onload = (e) => {
+      //   console.log(
+      //     "performace==========",
+      //     // window.performance,
+      //     window.performance.getEntriesByType("paint"),
+      //   );
+      // };
+    </script>
+  </body>
 </html>

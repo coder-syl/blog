@@ -1,16 +1,16 @@
 <template>
   <div class="panel">
     <ul class="extra-act">
-      <li :class="{ 'like-warpper': liked }" @click="likeClick">
-        <el-badge :value="likeCount" :max="99" type="primary">
+      <li @click="likeClick">
+        <el-badge :value="likeCount" type="primary">
           <svg-icon icon-class="like" class="svg-icon" />
         </el-badge>
       </li>
-      <li :class="{ 'collect-warpper': collected }" @click="collectClick">
+      <!-- <li :class="{ 'collect-warpper': collected }" @click="collectClick">
         <el-badge :value="collectCount" :max="99" type="primary">
           <svg-icon icon-class="collect" class="svg-icon" />
         </el-badge>
-      </li>
+      </li>-->
     </ul>
 
     <ul class="extra-cnt">
@@ -19,7 +19,7 @@
           slot="reference"
           target="_blank"
           class="item"
-          :href="'https://connect.qq.com/widget/shareqq/index.html?url=' + codedUrl + '&title=' + codedTitle + '&summary=&style=101&width=96&height=24'"
+          :href="'https://connect.qq.com/widget/shareqq/index.html?url=' + codedUrl + '&title=' + blogDetail.title + '&summary=&style=101&width=96&height=24'"
         >
           <svg-icon icon-class="qq" class="svg-icon" />
         </a>
@@ -35,22 +35,73 @@
         </el-popover>
       </li>
 
-      <li v-clipboard:copy="url" v-clipboard:success="copySuccess" class="cp-warpper">
+      <!-- <li v-clipboard:copy="url" v-clipboard:success="copySuccess" class="cp-warpper">
         <svg-icon icon-class="copy" class="svg-icon" />
-      </li>
+      </li>-->
       <ul />
     </ul>
   </div>
 </template>
 
 <script>
+import { getBlogById, updateBlogById } from "@/api/blog/blog";
+
 export default {
+  // props: [
+  //       'author',
+  //       'classification_id',
+  //       'content',
+  //       'createdAt',
+  //       'created_time',
+  //       'deletef',
+  //       'htmlContent',
+  //       'id',
+  //       'parent_classification_id',
+  //       'reply_count',
+  //       'title',
+  //       'updatedAt',
+  //       'updated_time',
+  //       'visit_count'
+  // ],
+  props: { blogDetail: { type: Object } },
+  watch: {
+    blogDetail(nv, ov) {
+      this.likeCount = nv.reply_count;
+    }
+  },
   data() {
     return {
-      likeCount: 10,
+      likeCount: this.blogDetail.reply_count,
       collectCount: 10,
       codedUrl: window.location.href
     };
+  },
+  mounted() {
+    console.log(this.blogDetail, "this.blog");
+  },
+  methods: {
+    likeClick() {
+      updateBlogById(
+        {
+          title: this.blogDetail.title,
+          reply_count: this.blogDetail.reply_count + 1,
+          content:this.blogDetail.content,
+          id:this.blogDetail.id
+        },
+        true
+      ).then(response => {
+        if (response.code === 200) {
+          // this.$message({
+          //   message: "更新成功",
+          //   type: "success"
+          // });
+          this.likeCount+=1
+        } else {
+          // this.$message.error("更新失败");
+        }
+      });
+      
+    }
   }
 };
 </script>

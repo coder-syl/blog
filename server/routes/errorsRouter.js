@@ -24,7 +24,7 @@ let curFileno = 0;
 // var upload = multer({ storage: storage })
 
 router.get("/allErrors", errorsController.getAllError);
-router.post("/addError", errorsController.addError);
+router.get("/addError", errorsController.addError);
 router.get("/getErrorById/:id", errorsController.getErrorById);
 router.get(
     "/getErrorOrderByVisitCount",

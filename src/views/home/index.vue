@@ -5,8 +5,8 @@
     </div>
     <div class="index">
       <!-- <button @click="makeError"> asdfa</button> -->
-      <div class="blogList" v-loading="hasLoding">
-        <div class="blog" v-show="!(blogList.length>0)">
+      <div class="blogList" v-loading="hasLoding" :style="blogMargin">
+        <div class="blog" v-show="!(blogList.length>0)" >
           <div class="blogHeader"></div>
           <div class="blogContent">
             没有数据
@@ -39,7 +39,7 @@
           <div class="blogFooter">
             <div>
               <el-button size="mini" icon="el-icon-view" round>{{item.visit_count}}</el-button>
-              <el-button size="mini" icon="el-icon-s-comment" round>{{item.reply_count}}</el-button>
+              <el-button size="mini" icon="el-icon-star-on" round>{{item.reply_count}}</el-button>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
           </div>
           <div v-for="(item,index) in hotBlogList" :key="item.id" class="text item cardContent">
             <!-- <div class="el-step__icon is-text"><div class="el-step__icon-inner"> -->
-              <!-- </div></div> -->
+            <!-- </div></div> -->
             <div class="card-list-content-title">{{index}} —{{ item.title }}</div>
           </div>
         </el-card>
@@ -62,7 +62,7 @@
             <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
           </div>
           <div v-for="o in 4" :key="o" class="text item">{{'列表内容 ' + o }}</div>
-        </el-card> -->
+        </el-card>-->
       </div>
 
       <!-- <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
@@ -78,19 +78,21 @@ import {
   getBlogByClassification,
   getBlogOrderByVisitCount
 } from "@/api/blog/blog";
+
 export default {
   // props: {
   //   curClaId: {
   //     default: 0
   //   }
   // },
-  name:"home-index",
+  name: "home-index",
   data() {
     return {
       hasLoding: true,
       blogList: [],
       curClaId: "",
-      hotBlogList: []
+      hotBlogList: [],
+      blogMargin: ""
     };
   },
   filters: {
@@ -110,11 +112,11 @@ export default {
       // return value.charAt(0).toUpperCase() + value.slice(1)
     }
   },
-  
+
   methods: {
-    makeError(){
-      console.log(1)
-        error
+    makeError() {
+      console.log(1);
+      error;
 
       new Error('I was constructed via the "new" keyword!');
     },
@@ -134,10 +136,11 @@ export default {
     curClaId: function(newV) {
       if (newV === 0) {
         listBlog().then(res => {
-          this.blogList = res.data;
+          this.blogList = res.data.rows;
           this.hasLoding = false;
         });
       } else {
+        this.blogMargin = "margin-top:50px;";
         getBlogByClassification(newV).then(res => {
           this.blogList = res.data;
           this.hasLoding = false;
@@ -147,16 +150,17 @@ export default {
   },
 
   mounted() {
+     this.$performanceMonitor();
+
     listBlog().then(res => {
-      this.blogList = res.data;
+      this.blogList = res.data.rows;
       this.hasLoding = false;
     });
     getBlogOrderByVisitCount().then(res => {
       this.hotBlogList = res.data;
       this.hasLoding = false;
     });
-         
-     abc();    
+
   }
 };
 </script>
@@ -239,7 +243,7 @@ export default {
 }
 .cardList {
   width: 25%;
-  .card-list-content-title{
+  .card-list-content-title {
     font-size: 14px;
   }
 }

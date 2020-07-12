@@ -21,20 +21,9 @@ export default {
     card
   },
   created() {
-    listProjects({ deletef: 0 }, true).then(response => {
-      this.cardDatas = response.data;
+    listProjects().then(response => {
+      this.cardDatas = response.data.rows;
     });
-
-    // this.axios.get("/getAllProject").then(response => {
-    //   if (response.data.status.code === "202") {
-    //     console.log(response.data.result);
-    //     for (let item of response.data.result) {
-    //       console.log(item);
-    //       this.cardDatas.push(item);
-    //     }
-    //     console.log(this.cardDatas);
-    //   }
-    // });
   },
   data() {
     return {
