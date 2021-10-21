@@ -24,9 +24,9 @@
         <a-menu-item key="2-1"
           ><router-link to="/tools/juejin">掘金</router-link></a-menu-item
         >
-        <a-menu-item key="2-2">option6</a-menu-item>
+        <!-- <a-menu-item key="2-2">option6</a-menu-item>
         <a-menu-item key="2-3">option7</a-menu-item>
-        <a-menu-item key="2-4">option8</a-menu-item>
+        <a-menu-item key="2-4">option8</a-menu-item> -->
       </a-sub-menu>
       <a-menu-item key="4">
         <!-- <upload-outlined /> -->

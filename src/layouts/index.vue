@@ -65,11 +65,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.ant-layout{
+  background:none;
+}
 .layout {
   width: 100vw;
   display: flex;
   align-items: center;
   margin: 0;
+
   .layout-content {
     margin-top:16px;    
     max-width: 1060px;
