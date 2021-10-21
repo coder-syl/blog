@@ -100,28 +100,28 @@ export default {
     padding: 0;
   }
 
-  ::v-deep .ql-container.ql-snow {
-    border: none;
-  }
+  // ::v-deep .ql-container.ql-snow {
+  //   border: none;
+  // }
 
-  ::v-deep .ql-toolbar.ql-snow {
-    border: none;
-  }
+  // ::v-deep .ql-toolbar.ql-snow {
+  //   border: none;
+  // }
 
-  ::v-deep .ql-editor {
-    border: 1px solid #e74851;
-    border-radius: 5px;
-    min-height: 120px;
-    padding: 20px;
-  }
+  // ::v-deep .ql-editor {
+  //   border: 1px solid #e74851;
+  //   border-radius: 5px;
+  //   min-height: 120px;
+  //   padding: 20px;
+  // }
 
-  ::v-deep .ql-stroke {
-    stroke: #e74851;
-  }
+  // ::v-deep .ql-stroke {
+  //   stroke: #e74851;
+  // }
 
-  ::v-deep .ql-fill {
-    fill: #e74851;
-  }
+  // ::v-deep .ql-fill {
+  //   fill: #e74851;
+  // }
 }
 .author-info-block {
   display: flex;
