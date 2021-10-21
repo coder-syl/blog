@@ -15,5 +15,16 @@ module.exports = {
         "@components": resolve("./src/components")
       }
     }
-  }
+  },
+  css: {
+    loaderOptions: {
+        sass: {
+          // @/ is an alias to src/
+          // so this assumes you have a file named `src/variables.scss`
+          prependData: `@import "./src/assets/style/scss/app.scss";`
+        }
+    }
+},
+
+
 }

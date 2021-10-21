@@ -2,8 +2,10 @@
   <header class="site-header">
     <div class="container">
       <div class="site-logo">
-        <p>樱舞话前端</p>
+        <!-- <p>樱舞话前端</p> -->
+        <img src="../assets/image/weblogo.png" alt="" />
       </div>
+      <div></div>
       <nav class="site-nav">
         <ul class="site-nav__list">
           <li
@@ -23,12 +25,12 @@
           </li> -->
         </ul>
       </nav>
-      <div class="site-login">
+      <!-- <div class="site-login">
         <div class="site-login__content">
           <a>登录</a>
           <a>注册</a>
         </div>
-      </div>
+      </div> -->
     </div>
   </header>
 </template>
@@ -46,7 +48,10 @@ export default {
 
     const menuList = reactive([
       { title: "首页", address: "/" },
-      { title: "工具", address: "/Tools" },
+      { title: "工具", address: "/tools" },
+      { title: "开源", address: "/project" },
+      { title: "系列", address: "/series" },
+      { title: "关于", address: "/about" },
     ]);
     function isActive(address) {
       return route.path === address;
@@ -58,19 +63,25 @@ export default {
 
 <style lang="scss" scoped>
 .site-header {
+  background: #fff;
+  font-size: 1.33em;
+  color: $fontColor-gray;
+  height: 5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   .container {
-    //   height: 55px;
-    // line-height: 55px;
-    font-size: 1.2em;
-    height: 55px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+
     .site-logo {
       vertical-align: middle;
       p {
         // font-size:1.2em;
-        background: -webkit-linear-gradient(45deg, #00ff95,#09009f 80%);
+        background: -webkit-linear-gradient(45deg, #00ff95, #09009f 80%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -97,7 +108,7 @@ export default {
     .site-login {
       .site-login__content {
         a {
-          line-height: 55px;
+          line-height: 5rem;
           color: #86909c;
         }
       }
