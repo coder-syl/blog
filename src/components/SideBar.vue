@@ -37,7 +37,7 @@
       <a-menu-item key="5">
         <!-- <upload-outlined /> -->
         <span>
-          <router-link to="/series">系列</router-link>
+          <router-link to="/series">系列文</router-link>
         </span>
       </a-menu-item>
     </a-menu>
