@@ -1,4 +1,4 @@
-<template>
+npm <template>
   <a-table :data-source="nostarsData" :columns="columns">
     <template #name="{ text, record }">
       <a :href="record.auth.page1" target="_blank">{{ text }}</a>
@@ -26,7 +26,7 @@
   </a-table>
 </template>
 
-<script lang="ts">
+<script >
 import {
   SmileOutlined,
   DownOutlined,

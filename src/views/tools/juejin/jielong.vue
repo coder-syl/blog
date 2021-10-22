@@ -14,7 +14,7 @@
     </template>
   </a-table>
 </template>
-<script lang="ts">
+<script >
 import { SmileOutlined, DownOutlined } from "@ant-design/icons-vue";
 import { defineComponent, onMounted } from "vue";
 

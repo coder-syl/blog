@@ -11,6 +11,5 @@ import Utils from './utils/utils'
 
 let app = createApp(App)
 app.config.globalProperties.$Utils = Utils;
-app.config.productionTip = false;
 
 app.use(Antd).use(store).use(router).mount('#app')
