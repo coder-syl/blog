@@ -71,10 +71,14 @@ export default {
     const anayDisable = ref(false);
     const confirmLoading = ref(false);
     const formState = reactive({
-      pass: "picker",
-      urlString: `7. 海鸥爱上鱼+海鸥与鱼 
-https://juejin.cn/post/7020603642612809742`,
+      pass: "",
+      urlString: "",
     });
+    //     const formState = reactive({
+    //       pass: "picker",
+    //       urlString: `7. 海鸥爱上鱼+海鸥与鱼
+    // https://juejin.cn/post/7020603642612809742`,
+    //     });
     let validatePass = async (rule, value) => {
       if (value === "") {
         return Promise.reject("请输入密码");
@@ -119,9 +123,8 @@ https://juejin.cn/post/7020603642612809742`,
         io.on("endSend", () => {
           anayDisable.value = false;
           console.log("分析结束");
-          io.close()
+          io.close();
           hide();
-
         });
         io.on("sendStarData", (data) => {
           console.log("message: ", data);
@@ -155,8 +158,7 @@ https://juejin.cn/post/7020603642612809742`,
 </script>
 
 <style lang="scss" scoped>
-.juejin{
-  width:1060px;
+.juejin {
+  width: 1060px;
 }
-
 </style>

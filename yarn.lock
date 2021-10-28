@@ -7588,7 +7588,7 @@ safe-regex@^1.1.0:
 
 sass-loader@^8.0.2:
   version "8.0.2"
-  resolved "https://registry.npmmirror.com/sass-loader/download/sass-loader-8.0.2.tgz?cache=0&sync_timestamp=1634036031107&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fsass-loader%2Fdownload%2Fsass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
+  resolved "https://registry.npmmirror.com/sass-loader/download/sass-loader-8.0.2.tgz#debecd8c3ce243c76454f2e8290482150380090d"
   integrity sha1-3r7NjDziQ8dkVPLoKQSCFQOACQ0=
   dependencies:
     clone-deep "^4.0.1"
@@ -7608,9 +7608,9 @@ sass-resources-loader@^2.2.4:
     loader-utils "^2.0.0"
 
 sass@^1.26.5:
-  version "1.43.3"
-  resolved "https://registry.npmmirror.com/sass/download/sass-1.43.3.tgz?cache=0&sync_timestamp=1634867108339&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fsass%2Fdownload%2Fsass-1.43.3.tgz#aa16a69131b84f0cd23189a242571e8905f1ce43"
-  integrity sha1-qhamkTG4TwzSMYmiQlceiQXxzkM=
+  version "1.43.4"
+  resolved "https://registry.npmmirror.com/sass/download/sass-1.43.4.tgz#68c7d6a1b004bef49af0d9caf750e9b252105d1f"
+  integrity sha1-aMfWobAEvvSa8NnK91DpslIQXR8=
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 

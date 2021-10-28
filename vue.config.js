@@ -21,7 +21,8 @@ module.exports = {
         sass: {
           // @/ is an alias to src/
           // so this assumes you have a file named `src/variables.scss`
-          prependData: `@import "./src/assets/style/scss/app.scss";`
+          // prependData: `@import "./src/assets/style/theme/app.scss";`
+          prependData: `@import "./src/assets/style/theme/app.scss";`
         }
     }
 },

@@ -1,14 +1,12 @@
 <template>
   <a-layout class="layout">
     <!-- <a-layout class="layout-content"> -->
-    <a-layout-header style="background: #fff">
-      <SideBar
-        :sidebarCollapsed="sidebarCollapsed"
-        :sidebarColor="sidebarColor"
-        :sidebarTheme="sidebarTheme"
-      ></SideBar>
-    </a-layout-header>
-    <a-layout-content style="padding: 0 50px" class="layout-content">
+    <SideBar
+      :sidebarCollapsed="sidebarCollapsed"
+      :sidebarColor="sidebarColor"
+      :sidebarTheme="sidebarTheme"
+    ></SideBar>
+    <a-layout-content style="padding: 0" class="layout-content">
       <router-view />
     </a-layout-content>
   </a-layout>
@@ -65,23 +63,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.ant-layout{
-  background:none;
+.ant-layout {
+  background: none;
 }
 .layout {
-  width: 100vw;
   display: flex;
   align-items: center;
   margin: 0;
 
   .layout-content {
-    margin-top:16px;    
-    max-width: 1060px;
+    margin-top: 50px;
+    padding: 2rem 15px;
+    max-width: 1200px;
   }
   .ant-layout-header {
     // text-align:center;
-    width:100vw;
-  
+    width: 100vw;
   }
 }
 </style>

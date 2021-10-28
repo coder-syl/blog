@@ -1,27 +1,36 @@
 <template>
-  <div class="header-menu">
-    <div class="logo">樱舞</div>
+<div id="page-header">
+      <a-layout-header style="background: #fff">
+
+  <div  class="header-menu">
+    
+    <div class="logo">
+      <a id="site-name" href="/" data-pjax-state="">半夏的前端博客</a>
+    </div>
     <a-menu theme="light" mode="horizontal" v-model:selectedKeys="selectedKeys">
-      <a-menu-item key="1">
-        <!-- <user-outlined /> -->
+       <a-menu-item key="1">
+        <!-- <upload-outlined /> -->
+        <ReadOutlined />
         <span>
           <router-link to="/">首页</router-link>
         </span>
       </a-menu-item>
-      <a-menu-item key="3">
-        <!-- <upload-outlined /> -->
+      <a-menu-item key="2">
+        <!-- <user-outlined /> -->
+        <HomeOutlined />
         <span>
-          <router-link to="/blogs">博文</router-link>
+          <router-link to="/about">关于</router-link>
         </span>
       </a-menu-item>
-      <a-sub-menu key="2">
+     
+      <a-sub-menu key="3">
         <template #title>
           <span>
-            <!-- <laptop-outlined /> -->
+            <ToolOutlined />
             工具
           </span>
         </template>
-        <a-menu-item key="2-1"
+        <a-menu-item key="3-1"
           ><router-link to="/tools/juejin">掘金</router-link></a-menu-item
         >
         <!-- <a-menu-item key="2-2">option6</a-menu-item>
@@ -29,37 +38,40 @@
         <a-menu-item key="2-4">option8</a-menu-item> -->
       </a-sub-menu>
       <a-menu-item key="4">
-        <!-- <upload-outlined /> -->
+       <GithubOutlined />
         <span>
           <router-link to="/project">开源</router-link>
         </span>
       </a-menu-item>
       <a-menu-item key="5">
-        <!-- <upload-outlined /> -->
+        <CoffeeOutlined />
         <span>
           <router-link to="/series">系列文</router-link>
         </span>
       </a-menu-item>
     </a-menu>
   </div>
+      </a-layout-header>
+</div>
+
 </template>
 
 <script >
 import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
+  HomeOutlined,
+  ReadOutlined,
+  ToolOutlined,
+  GithubOutlined,
+  CoffeeOutlined,
 } from "@ant-design/icons-vue";
 import { defineComponent, ref, reactive } from "vue";
 export default {
   components: {
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
+    HomeOutlined,
+    ReadOutlined,
+    ToolOutlined,
+    GithubOutlined,
+    CoffeeOutlined,
   },
   props: {
     // Sidebar collapsed status.
@@ -89,16 +101,22 @@ export default {
 
 <style lang="scss" scoped>
 .header-menu {
-  width: 1060px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   margin: auto;
+  justify-content: space-around;
+      transition: all 0.5;
+
   .logo {
-    font-size: 1.4rem;
-    color: #449fe8;
+    font-size: 1.3em;
+    color: #4c4948;
   }
   .ant-menu {
     margin-left: 100px;
+  }
+  .ant-menu-item, .ant-menu-submenu-title {
+    font-size: 0.78em;
   }
 }
 // .ant-layout-sider {

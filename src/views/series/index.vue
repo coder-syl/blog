@@ -55,7 +55,6 @@ export default {};
 <style lang="scss" scoped>
 .series {
   //   width: 900px;
-  margin-top: 6rem;
   display: flex;
   flex-direction: row;
   div {

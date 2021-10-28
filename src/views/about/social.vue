@@ -1,5 +1,4 @@
 <template>
-
   <a-card title="我到过的地方">
     <a-card-grid class="card-size">
       <a
@@ -39,7 +38,7 @@
     </a-card-grid>
     <a-card-grid class="card-size">
       <a
-        href="https://space.bilibili.com/337327961l"
+        href="https://space.bilibili.com/337327961"
         target="_blank"
         rel="noopener noreferrer"
       >
