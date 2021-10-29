@@ -20,7 +20,7 @@ let httpCode = {
 };
 let service = axios.create({
     // axios中请求配置有baseURL选项，表示请求URL公共部分
-    baseURL: 'http://localhost:3000/api/v1 ',
+    baseURL:process.env.VUE_APP_OPENAPI_BASE_URL,
     // 超时
     timeout: 1000000
 });
